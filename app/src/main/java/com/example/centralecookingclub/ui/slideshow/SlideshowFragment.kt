@@ -16,19 +16,16 @@ import com.example.centralecookingclub.MainActivity
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
+import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.databinding.FragmentSlideshowBinding
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 
 class SlideshowFragment() : Fragment(), View.OnClickListener {
 
-
     private val activityScope = CoroutineScope(Dispatchers.IO)
     private val CAT = "EDPMR"
     private var btnCreateToast : Button? = null
-
-
-
 
     private lateinit var slideshowViewModel: SlideshowViewModel
     private var _binding: FragmentSlideshowBinding? = null
@@ -38,6 +35,7 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
     private val binding get() = _binding!!
 
     override fun onCreateView(
+
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,15 +51,33 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
             textView.text = it
         })
 
+        //Création d'un bouton cliquable.
         btnCreateToast = root.findViewById(R.id.btnToast)
         btnCreateToast!!.setOnClickListener(this)
 
+        //TEST POUR UNE RECETTE DE CRÊPES
+        //REMPLISSAGE DE LA DATABASE INGREDIENTS
+        // L'idée après c'est de mettre la création de la DB dans une activité tierce
+        val egg = Ingredient (1, "egg")
         val milk = Ingredient(2, "milk")
+        val flour = Ingredient(3, "flour")
+        val salt = Ingredient(4, "salt")
+        val sugar = Ingredient(5, "sugar")
+        val butter = Ingredient(6, "butter")
+        addIngredient(egg)
         addIngredient(milk)
+        addIngredient(flour)
+        addIngredient(salt)
+        addIngredient(sugar)
+        addIngredient(butter)
 
+        //REMPLISSAGE DE LA DATA BASE RECETTES
+        val crepes = Recipe(1,"crepes", 25, "test", 4)
+        addRecipe(crepes)
 
         return root
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -109,4 +125,7 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         slideshowViewModel.addIngredient(ingredient)
     }
 
+    fun addRecipe(recipe: Recipe) {
+        slideshowViewModel.addRecipe(recipe)
+    }
 }

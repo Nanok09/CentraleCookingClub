@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
+import com.example.centralecookingclub.data.model.Recipe
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
@@ -17,8 +18,9 @@ class SlideshowViewModel(application: Application) : AndroidViewModel(applicatio
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
 
 
+    // En vrai, on devrait pas mettre ça dans slideshowViewModel(ça a pas grand chose à voir avec le slideshow)
+    // Permet l'ajout des ingrédients dans la DB
     val ingredients = MutableLiveData<ViewState>()
-
     fun addIngredient(ingredient: Ingredient){
         viewModelScope.launch {
             try {
@@ -28,6 +30,24 @@ class SlideshowViewModel(application: Application) : AndroidViewModel(applicatio
             }
         }
     }
+
+    // Permet l'ajout d'une recette dans la DB
+    val recipes = MutableLiveData<ViewState>()
+    fun addRecipe(recipe: Recipe){
+        viewModelScope.launch {
+            try {
+                cccRepository.localDataSource.addRecipe(recipe)
+            } catch (e: Exception){
+                recipes.value = ViewState.Error(e.message.orEmpty())
+            }
+        }
+    }
+
+    // Permet l'ajout des étapes dans la DB
+    // Permet l'ajout des quantités dans la DB
+
+
+    // Permet d'afficher tous les ingrédients de la DB
     fun loadIngredients(){
 
         viewModelScope.launch {
