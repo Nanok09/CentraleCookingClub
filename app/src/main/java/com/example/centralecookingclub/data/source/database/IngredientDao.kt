@@ -1,6 +1,8 @@
 package com.example.centralecookingclub.data.source.database
 
 import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.centralecookingclub.data.model.Ingredient
 
@@ -16,5 +18,9 @@ interface IngredientDao {
         suspend fun getIngredient(id: Int): Ingredient
 
 
+
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun addIngredient(ingredient: Ingredient)
 
     }

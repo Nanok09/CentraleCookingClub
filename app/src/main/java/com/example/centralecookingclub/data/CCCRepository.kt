@@ -3,8 +3,15 @@ package com.example.centralecookingclub.data
 import android.app.Application
 import com.example.centralecookingclub.data.source.LocalDataSource
 
-object CCCRepository {
+class CCCRepository (
+    val localDataSource: LocalDataSource
 
-    val localDataSource = LocalDataSource(application = Application())
+    ){
+
+    companion object {
+        fun newInstance(application: Application): CCCRepository{
+            return CCCRepository(localDataSource = LocalDataSource(application))
+        }
+    }
 
 }
