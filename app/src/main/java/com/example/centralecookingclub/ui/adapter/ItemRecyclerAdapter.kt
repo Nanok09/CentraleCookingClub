@@ -1,15 +1,16 @@
 package com.example.centralecookingclub.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
-import com.example.centralecookingclub.data.Recette
+import com.example.centralecookingclub.data.model.Recipe
 
-class ItemRecyclerAdapter( _recettes : List<Recette>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    var recettes : List<Recette> = _recettes
+class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<Recipe>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+    var recettes : List<Recipe> = _recettes
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.recette,parent,false)
         return RecetteViewHolder(view)
@@ -30,11 +31,10 @@ class ItemRecyclerAdapter( _recettes : List<Recette>) : RecyclerView.Adapter<Rec
 
     inner class RecetteViewHolder constructor(recette : View): RecyclerView.ViewHolder(recette){
         private val titletextView : TextView = recette.findViewById<TextView>(R.id.titreItem)
-        private val decriptiontextView : TextView = recette.findViewById(R.id.descriptionOfItem)
 
-        fun bind(recette: Recette){
-            titletextView.text = recette.nom
-            decriptiontextView.text = recette.description
+        fun bind(recette: Recipe){
+            Log.d("CCC",recette.name)
+            titletextView.text = recette.name
         }
     }
     interface ActionListener {

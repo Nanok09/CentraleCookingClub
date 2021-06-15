@@ -9,17 +9,20 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.centralecookingclub.data.Recette
+import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.databinding.FragmentHomeBinding
 import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
     lateinit var recettesAdapter : ItemRecyclerAdapter
     lateinit var recyclerView : RecyclerView
-    lateinit var _recettes : MutableList<Recette>
+    lateinit var _recettes : MutableList<Recipe>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -40,24 +43,30 @@ class HomeFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        _recettes = mutableListOf(Recette("Tarte à la framboise","faite la tarte"),
-                                    Recette("poulet curry","faite le poulet curry"))
+        _recettes= mutableListOf(Recipe(4,"test",45,"test",5))
 
+        val fragmentScope = CoroutineScope(Dispatchers.IO)
         recyclerView = _binding!!.itemRecyclerView
         recyclerView.layoutManager= LinearLayoutManager(activity)
-        recettesAdapter = ItemRecyclerAdapter(_recettes)
+        recettesAdapter = ItemRecyclerAdapter(this,_recettes)
         recyclerView.adapter = recettesAdapter
 
         homeViewModel.recettes.observe(viewLifecycleOwner, Observer { recettes ->
             _recettes.clear()
             _recettes.addAll(recettes)
             recettesAdapter.notifyDataSetChanged()})
-        homeViewModel.recettes.value = mutableListOf(Recette("Tarte à la creme","ferme ta gueule"),
-            Recette("on est la","youpi"))
+        fragmentScope.launch {
+            //homeViewModel.getRecipes()
+        }
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onItemClicked(position: Int) {
+        TODO("Not yet implemented")
     }
 }

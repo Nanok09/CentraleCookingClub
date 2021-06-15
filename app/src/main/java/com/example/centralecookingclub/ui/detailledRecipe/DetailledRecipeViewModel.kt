@@ -1,4 +1,4 @@
-package com.example.centralecookingclub.ui.home
+package com.example.centralecookingclub.ui.detailledRecipe
 
 import android.app.Application
 import android.util.Log
@@ -10,7 +10,7 @@ import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
 import kotlinx.coroutines.launch
 import java.lang.Exception
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class DetailledRecipeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
@@ -19,13 +19,4 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
     val text: LiveData<String> = _text
 
-    suspend fun getRecipes(){
-        viewModelScope.launch {
-            try {
-                recettes.value = cccRepository.localDataSource.getAllRecipes()
-            } catch (e: Exception){
-                Log.d("CCC",e.toString())
-            }
-        }
-    }
 }
