@@ -1,4 +1,4 @@
-package com.example.centralecookingclub.data.source.database
+package com.example.centralecookingclub.data.source.database.dao
 
 import androidx.room.Dao
 import androidx.room.Query

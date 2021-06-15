@@ -74,7 +74,6 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         //REMPLISSAGE DE LA DATA BASE RECETTES
         val crepes = Recipe(1,"crepes", 25, "test", 4)
         addRecipe(crepes)
-
         return root
     }
 
