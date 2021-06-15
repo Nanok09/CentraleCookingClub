@@ -9,7 +9,15 @@
         android:id="@+id/nav_home"
         android:name="com.example.centralecookingclub.ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_detailledRecipeFragment"
+            app:destination="@id/detailledRecipeFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_gallery"
@@ -22,4 +30,9 @@
         android:name="com.example.centralecookingclub.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
+    <fragment
+        android:id="@+id/detailledRecipeFragment"
+        android:name="com.example.centralecookingclub.ui.detailledRecipe.DetailledRecipeFragment"
+        android:label="fragment_detailled_recipe"
+        tools:layout="@layout/fragment_detailled_recipe" />
 </navigation>

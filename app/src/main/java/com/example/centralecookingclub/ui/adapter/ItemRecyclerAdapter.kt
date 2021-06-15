@@ -31,7 +31,15 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
 
     inner class RecetteViewHolder constructor(recette : View): RecyclerView.ViewHolder(recette){
         private val titletextView : TextView = recette.findViewById<TextView>(R.id.titreItem)
-
+        init {
+            itemView.setOnClickListener{
+                val itemPosition = bindingAdapterPosition
+                if (itemPosition != RecyclerView.NO_POSITION) {
+                    val clickedItem = recettes[itemPosition]
+                    actionListener.onItemClicked(itemPosition)
+                }
+            }
+        }
         fun bind(recette: Recipe){
             Log.d("CCC",recette.name)
             titletextView.text = recette.name
