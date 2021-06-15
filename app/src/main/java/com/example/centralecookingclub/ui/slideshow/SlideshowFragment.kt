@@ -64,6 +64,7 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         val salt = Ingredient(4, "salt")
         val sugar = Ingredient(5, "sugar")
         val butter = Ingredient(6, "butter")
+        slideshowViewModel.addIngredient(egg)
         addIngredient(egg)
         addIngredient(milk)
         addIngredient(flour)
