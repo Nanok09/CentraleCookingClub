@@ -4,17 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.example.centralecookingclub.R
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.centralecookingclub.data.Recette
 import com.example.centralecookingclub.databinding.FragmentHomeBinding
+import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
 
 class HomeFragment : Fragment() {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
+    lateinit var recettesAdapter : ItemRecyclerAdapter
+    lateinit var recyclerView : RecyclerView
+    lateinit var _recettes : MutableList<Recette>
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,12 +35,25 @@ class HomeFragment : Fragment() {
 
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textHome
-        homeViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
         return root
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        _recettes = mutableListOf(Recette("Tarte à la framboise","faite la tarte"),
+                                    Recette("poulet curry","faite le poulet curry"))
+
+        recyclerView = _binding!!.itemRecyclerView
+        recyclerView.layoutManager= LinearLayoutManager(activity)
+        recettesAdapter = ItemRecyclerAdapter(_recettes)
+        recyclerView.adapter = recettesAdapter
+
+        homeViewModel.recettes.observe(viewLifecycleOwner, Observer { recettes ->
+            _recettes.clear()
+            _recettes.addAll(recettes)
+            recettesAdapter.notifyDataSetChanged()})
+        homeViewModel.recettes.value = mutableListOf(Recette("Tarte à la creme","ferme ta gueule"),
+            Recette("on est la","youpi"))
     }
 
     override fun onDestroyView() {
