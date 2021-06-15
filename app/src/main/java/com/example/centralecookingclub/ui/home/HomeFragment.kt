@@ -52,6 +52,8 @@ class HomeFragment : Fragment() {
             _recettes.clear()
             _recettes.addAll(recettes)
             recettesAdapter.notifyDataSetChanged()})
+        homeViewModel.recettes.value = mutableListOf(Recette("Tarte à la creme","ferme ta gueule"),
+            Recette("on est la","youpi"))
     }
 
     override fun onDestroyView() {
