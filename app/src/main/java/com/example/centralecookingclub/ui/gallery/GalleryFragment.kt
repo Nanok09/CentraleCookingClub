@@ -86,6 +86,26 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
         recyclerView.layoutManager= LinearLayoutManager(this.activity)
         editRecipeAdapter = EditRecipeRecyclerAdapter(this,_editRecipeList)
         recyclerView.adapter = editRecipeAdapter
+
+        galleryViewModel.steps.observe(viewLifecycleOwner) {
+                viewState ->
+            when(viewState){
+                is GalleryViewModel.ViewState.Content -> {
+                    Log.i(CAT, "yo")
+                    viewState.steps.forEach {
+                        Log.i(CAT, it.description)
+                        val t = Toast.makeText(activity, it.description, Toast.LENGTH_SHORT)
+                        t.show()
+                    }
+                }
+                is GalleryViewModel.ViewState.Error -> {
+                    Log.i(CAT, "${viewState.message}")
+
+                    Toast.makeText(activity, "${viewState.message} ", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        }
     }
 
     override fun onDestroyView() {
@@ -97,12 +117,10 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
     override fun onItemClicked(position: Int) {
 
         alerter("click, lancement openGalleryForImage()")
-
-
-
         openGalleryForImage()
 
     }
+
 
 
     private fun openGalleryForImage() {
@@ -115,41 +133,23 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
     @RequiresApi(Build.VERSION_CODES.R)
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
-        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
-
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
             addImg.setImageURI(intent?.data)
-
-            var img = (addImg.drawable as BitmapDrawable).bitmap
-
-                var step = Step(1, 1, "jojo", "koko", "",img)
-                galleryViewModel.addStep(step)
-
-
-            Log.i(CAT, img.toString())
-
-            galleryViewModel.loadSteps()
-            galleryViewModel.steps.observe(this) {
-                    viewState ->
-                when(viewState){
-                    is GalleryViewModel.ViewState.Content -> {
-                        Log.i(CAT, "yo")
-                        viewState.steps.forEach {
-                            Log.i(CAT, it.description)
-                            val t = Toast.makeText(activity, it.description, Toast.LENGTH_SHORT)
-                            t.show()
-                        }
-                    }
-                    is GalleryViewModel.ViewState.Error -> {
-                        Log.i(CAT, "${viewState.message}")
-
-                        Toast.makeText(activity, "${viewState.message} ", Toast.LENGTH_SHORT)
-                            .show()
-                    }
-                }
-            }
-
-
         }
+    }
+
+
+    private fun addStep(){
+
+        //We get the image from the hidden image view created by openGalleryForImage()
+        var img = (addImg.drawable as BitmapDrawable).bitmap
+
+        TODO() //get stepNumber, description, description short from ui and create Step object
+        var step = Step(1, 1, "jojo", "koko", "", img)
+
+        //Call Viewmodel
+        galleryViewModel.addStep(step)
+
     }
 
 
