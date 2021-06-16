@@ -56,7 +56,9 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         homeViewModel.recettes.observe(viewLifecycleOwner, Observer { recettes ->
             _recettes.clear()
             _recettes.addAll(recettes)
+
             recettesAdapter.notifyDataSetChanged()})
+
         fragmentScope.launch {
             homeViewModel.getRecipes()
         }

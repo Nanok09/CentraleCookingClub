@@ -21,6 +21,8 @@ class SlideshowViewModel(application: Application) : AndroidViewModel(applicatio
     // En vrai, on devrait pas mettre ça dans slideshowViewModel(ça a pas grand chose à voir avec le slideshow)
     // Permet l'ajout des ingrédients dans la DB
     val ingredients = MutableLiveData<ViewState>()
+
+
     fun addIngredient(ingredient: Ingredient){
         viewModelScope.launch {
             try {
