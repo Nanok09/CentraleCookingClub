@@ -12,9 +12,16 @@ import androidx.navigation.ui.setupWithNavController
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.AppCompatActivity
 import com.example.centralecookingclub.data.CCCRepository
+import com.example.centralecookingclub.data.source.database.DatabaseCreator
 import com.example.centralecookingclub.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
+
+    private val activityScope = CoroutineScope(IO)
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
@@ -42,6 +49,11 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        val databaseInitializer = DatabaseCreator(application, this)
+        activityScope.launch {
+            databaseInitializer.initializeAllTables()
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

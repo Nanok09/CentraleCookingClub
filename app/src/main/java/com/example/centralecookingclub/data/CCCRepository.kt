@@ -1,10 +1,11 @@
 package com.example.centralecookingclub.data
 
 import android.app.Application
+import android.content.Context
 import com.example.centralecookingclub.data.source.LocalDataSource
 
 class CCCRepository (
-    val localDataSource: LocalDataSource
+    val localDataSource: LocalDataSource,
     ){
 
     companion object {
