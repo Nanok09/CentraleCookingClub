@@ -34,5 +34,9 @@
         android:id="@+id/detailledRecipeFragment"
         android:name="com.example.centralecookingclub.ui.detailledRecipe.DetailledRecipeFragment"
         android:label="fragment_detailled_recipe"
-        tools:layout="@layout/fragment_detailled_recipe" />
+        tools:layout="@layout/fragment_detailled_recipe" >
+        <argument
+            android:name="idRecipe"
+            app:argType="integer" />
+    </fragment>
 </navigation>

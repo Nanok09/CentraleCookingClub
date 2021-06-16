@@ -1,6 +1,7 @@
 package com.example.centralecookingclub.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,7 +58,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
             _recettes.addAll(recettes)
             recettesAdapter.notifyDataSetChanged()})
         fragmentScope.launch {
-            //homeViewModel.getRecipes()
+            homeViewModel.getRecipes()
         }
 
     }
@@ -68,7 +69,8 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
     }
 
     override fun onItemClicked(position: Int) {
-        val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment()
+        val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment(_recettes[position].id)
+        Log.d("CCC",_recettes[position].id.toString())
         findNavController().navigate(action)
     }
 }

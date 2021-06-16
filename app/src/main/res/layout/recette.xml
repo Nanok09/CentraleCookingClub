@@ -8,13 +8,43 @@
         android:id="@+id/titreItem"
         android:layout_width="match_parent"
         android:layout_height="45dp"
+        android:layout_marginEnd="180dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/descriptionOfItem" />
+        app:layout_constraintBottom_toTopOf="@+id/imageRecipe" />
     <TextView
-        android:id="@+id/descriptionOfItem"
-        android:layout_width="match_parent"
+        android:id="@+id/time"
+        android:layout_width="45dp"
         android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/ic_time"
+        app:layout_constraintBottom_toTopOf="@+id/imageRecipe" />
+    <TextView
+        android:id="@+id/nombrePersonnes"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/ic_nb_personnes"
+        app:layout_constraintBottom_toTopOf="@+id/imageRecipe" />
+    <ImageView
+        android:src="@drawable/crepes"
+        android:id="@+id/imageRecipe"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="fitXY"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titreItem" />
+
+    <ImageView
+        android:src="@drawable/ic_time_24"
+        android:id="@+id/ic_time"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/titreItem"
+        app:layout_constraintBottom_toTopOf="@+id/imageRecipe" />
+    <ImageView
+        android:src="@drawable/ic_baseline_group_24"
+        android:id="@+id/ic_nb_personnes"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintStart_toEndOf="@id/time"
+        app:layout_constraintBottom_toTopOf="@+id/imageRecipe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
