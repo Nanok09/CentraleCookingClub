@@ -1,9 +1,11 @@
 package com.example.centralecookingclub.ui.adapter
 
+import android.media.Image
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
@@ -36,9 +38,11 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
     inner class EditRecipeViewHolder constructor(editRecipe : View): RecyclerView.ViewHolder(editRecipe){
         private val descriptionTV : TextView = editRecipe.findViewById(R.id.description)
         private val numOfStepTV : TextView = editRecipe.findViewById(R.id.numEtape)
-        /*
+        private val stepImg: ImageView = editRecipe.findViewById(R.id.imageEtape)
+
         init {
-            itemView.setOnClickListener{
+
+            stepImg.setOnClickListener{
                 val itemPosition = bindingAdapterPosition
                 if (itemPosition != RecyclerView.NO_POSITION) {
                     val clickedItem = editRecipeList[itemPosition]
@@ -46,12 +50,13 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
                 }
             }
         }
-        */
+
         fun bind(editRecipe: EditRecipe){
             //descriptionTV.text=editRecipe.description
         }
     }
     interface ActionListener {
+
         fun onItemClicked(position: Int)
     }
 }

@@ -5,7 +5,6 @@ import com.example.centralecookingclub.data.source.LocalDataSource
 
 class CCCRepository (
     val localDataSource: LocalDataSource
-
     ){
 
     companion object {
