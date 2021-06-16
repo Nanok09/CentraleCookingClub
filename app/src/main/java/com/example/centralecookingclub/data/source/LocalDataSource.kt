@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
+import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.data.source.database.CCCDatabase
 
 class LocalDataSource (
@@ -42,6 +43,7 @@ class LocalDataSource (
     suspend fun getRecipeQuantity(idRecipe: Int) = recipeQuantityDao.getRecipeQuantity(idRecipe)
 
     suspend fun getAllSteps() = stepDao.getAllSteps()
+    suspend fun addStep(step: Step) = stepDao.addStep(step)
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)

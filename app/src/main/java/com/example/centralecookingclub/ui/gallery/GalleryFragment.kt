@@ -1,37 +1,61 @@
 package com.example.centralecookingclub.ui.gallery
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore.Images.Media.getBitmap
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
-import com.example.centralecookingclub.data.model.Recipe
+import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.databinding.FragmentGalleryBinding
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
-import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
+import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
+
 
 class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
+
+    val REQUEST_CODE = 100
+    private val CAT = "EDPMR"
 
     private lateinit var galleryViewModel: GalleryViewModel
     private var _binding: FragmentGalleryBinding? = null
     lateinit var editRecipeAdapter : EditRecipeRecyclerAdapter
     lateinit var recyclerView : RecyclerView
     lateinit var _editRecipeList : MutableList<EditRecipe>
+    lateinit var addImg: ImageView
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private fun alerter(s: String) {
+        Log.i(CAT, s)
+        val t = Toast.makeText(activity, s, Toast.LENGTH_SHORT)
+        t.show()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,6 +67,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
 
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         val root: View = binding.root
+        addImg = binding.imageView2
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -68,7 +93,64 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
         _binding = null
     }
 
+
     override fun onItemClicked(position: Int) {
-        TODO("Not yet implemented")
+
+        alerter("click, lancement openGalleryForImage()")
+
+
+
+        openGalleryForImage()
+
     }
+
+
+    private fun openGalleryForImage() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, REQUEST_CODE)
+    }
+
+    //https://stackoverflow.com/questions/56678011/kotlin-how-do-i-save-the-contents-of-an-imageview-to-the-internal-external-memo
+    @RequiresApi(Build.VERSION_CODES.R)
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
+        super.onActivityResult(requestCode, resultCode, intent)
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE){
+
+            addImg.setImageURI(intent?.data)
+
+            var img = (addImg.drawable as BitmapDrawable).bitmap
+
+                var step = Step(1, 1, "jojo", "koko", "",img)
+                galleryViewModel.addStep(step)
+
+
+            Log.i(CAT, img.toString())
+
+            galleryViewModel.loadSteps()
+            galleryViewModel.steps.observe(this) {
+                    viewState ->
+                when(viewState){
+                    is GalleryViewModel.ViewState.Content -> {
+                        Log.i(CAT, "yo")
+                        viewState.steps.forEach {
+                            Log.i(CAT, it.description)
+                            val t = Toast.makeText(activity, it.description, Toast.LENGTH_SHORT)
+                            t.show()
+                        }
+                    }
+                    is GalleryViewModel.ViewState.Error -> {
+                        Log.i(CAT, "${viewState.message}")
+
+                        Toast.makeText(activity, "${viewState.message} ", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            }
+
+
+        }
+    }
+
+
 }
