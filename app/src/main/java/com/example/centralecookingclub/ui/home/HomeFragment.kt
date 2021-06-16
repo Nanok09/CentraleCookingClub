@@ -1,12 +1,14 @@
 package com.example.centralecookingclub.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.data.model.Recipe
@@ -54,9 +56,11 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         homeViewModel.recettes.observe(viewLifecycleOwner, Observer { recettes ->
             _recettes.clear()
             _recettes.addAll(recettes)
+            Log.d("CCC","observeHome")
+            Log.d("CCC",recettes.size.toString())
             recettesAdapter.notifyDataSetChanged()})
         fragmentScope.launch {
-            //homeViewModel.getRecipes()
+            homeViewModel.getRecipes()
         }
 
     }
@@ -67,6 +71,8 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
     }
 
     override fun onItemClicked(position: Int) {
-        TODO("Not yet implemented")
+        val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment(_recettes[position].id)
+        Log.d("CCC",_recettes[position].id.toString())
+        findNavController().navigate(action)
     }
 }

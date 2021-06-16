@@ -30,11 +30,22 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
     }
 
     inner class RecetteViewHolder constructor(recette : View): RecyclerView.ViewHolder(recette){
-        private val titletextView : TextView = recette.findViewById<TextView>(R.id.titreItem)
-
+        private val titletextView : TextView = recette.findViewById(R.id.titreItem)
+        private val timeTextView : TextView = recette.findViewById(R.id.time)
+        private val nbPersonnesTextView : TextView = recette.findViewById(R.id.nombrePersonnes)
+        init {
+            itemView.setOnClickListener{
+                val itemPosition = bindingAdapterPosition
+                if (itemPosition != RecyclerView.NO_POSITION) {
+                    val clickedItem = recettes[itemPosition]
+                    actionListener.onItemClicked(itemPosition)
+                }
+            }
+        }
         fun bind(recette: Recipe){
-            Log.d("CCC",recette.name)
             titletextView.text = recette.name
+            timeTextView.text = recette.time.toString()
+            nbPersonnesTextView.text=recette.numberOfPeople.toString()
         }
     }
     interface ActionListener {
