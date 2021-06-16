@@ -19,6 +19,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     }
     var recettes = MutableLiveData<MutableList<Recipe>>()
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
+
     val text: LiveData<String> = _text
 
     suspend fun getRecipes(){

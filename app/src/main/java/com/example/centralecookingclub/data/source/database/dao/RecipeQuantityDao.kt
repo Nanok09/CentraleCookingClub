@@ -16,4 +16,8 @@ interface RecipeQuantityDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipeQuantity(recipeQuantity: RecipeQuantity)
+
+    @Query("SELECT * FROM RECIPE_QUANTITY_TABLE WHERE idIngredient = :idIngredient")
+    suspend fun getQuantityOfIngredient(idIngredient : Int) : RecipeQuantity
+
 }
