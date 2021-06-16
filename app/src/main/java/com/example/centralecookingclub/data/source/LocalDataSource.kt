@@ -6,6 +6,7 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
+import com.example.centralecookingclub.data.model.RecipeQuantity
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.data.source.database.CCCDatabase
 
@@ -23,9 +24,12 @@ class LocalDataSource (
 
 
     suspend fun getRecipeQuantity(idRecipe: Int) = recipeQuantityDao.getRecipeQuantity(idRecipe)
+    suspend fun addRecipeQuantity(recipeQuantity: RecipeQuantity) = recipeQuantityDao.addRecipeQuantity(recipeQuantity)
 
     suspend fun getAllSteps() = stepDao.getAllSteps()
+    suspend fun getStepsFromRecipe(idRecipe: Int) = stepDao.getStepsFromRecipe(idRecipe)
     suspend fun addStep(step: Step) = stepDao.addStep(step)
+
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
@@ -34,6 +38,7 @@ class LocalDataSource (
     suspend fun getAllIngredients() = ingredientDao.getAllIngredients()
     suspend fun getIngredient(id: Int) = ingredientDao.getIngredient(id)
     suspend fun addIngredient(ingredient: Ingredient) = ingredientDao.addIngredient(ingredient)
+    suspend fun getIngredientsFromRecipe(idRecipe: Int) = ingredientDao.getIngredientsFromRecipe(idRecipe)
 
     ///////////////////////////////
     //CREATION DE LA DB INITIALE //
@@ -101,6 +106,21 @@ class LocalDataSource (
         addStep(stepcrepes6)
     }
 
+    suspend fun initializeRecipeQuantities(){
+        val quantityEggCrepes = RecipeQuantity(1, 1, "int", 4)
+        val quantityMilkCrepes = RecipeQuantity(2, 1, "volume", 1/2) //En litres
+        val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250)
+        val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1 )
+        val quantitySugarCrepes = RecipeQuantity(5,1, "mass", 50)
+        val quantityButter = RecipeQuantity(6, 1, "mass", 50)
+        addRecipeQuantity(quantityEggCrepes)
+        addRecipeQuantity(quantityMilkCrepes)
+        addRecipeQuantity(quantityFlourCrepes)
+        addRecipeQuantity(quantitySaltCrepes)
+        addRecipeQuantity(quantitySugarCrepes)
+        addRecipeQuantity(quantityButter)
+    }
+
 
 
     //Permet d'initialiser toutes les tables
@@ -108,6 +128,7 @@ class LocalDataSource (
         initializeIngredients()
         initialzeRecipes()
         initializeSteps()
+        initializeRecipeQuantities()
     }
 
 }
