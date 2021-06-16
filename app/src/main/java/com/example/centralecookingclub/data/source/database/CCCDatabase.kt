@@ -6,6 +6,10 @@ import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.data.model.RecipeQuantity
+import com.example.centralecookingclub.data.source.database.dao.IngredientDao
+import com.example.centralecookingclub.data.source.database.dao.RecipeDao
+import com.example.centralecookingclub.data.source.database.dao.RecipeQuantityDao
+import com.example.centralecookingclub.data.source.database.dao.StepDao
 
 
 @Database(

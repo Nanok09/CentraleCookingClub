@@ -11,6 +11,7 @@ class CCCRepository (
     companion object {
         fun newInstance(application: Application): CCCRepository{
             return CCCRepository(localDataSource = LocalDataSource(application))
+            TODO("initialiser la DB une fois LocalDataSource créée.")
         }
     }
 
