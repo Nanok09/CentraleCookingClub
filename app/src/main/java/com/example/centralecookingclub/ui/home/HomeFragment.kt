@@ -56,11 +56,8 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         homeViewModel.recettes.observe(viewLifecycleOwner, Observer { recettes ->
             _recettes.clear()
             _recettes.addAll(recettes)
-            Log.d("CCC","observeHome")
-            Log.d("CCC",recettes.size.toString())
-            recettesAdapter.notifyDataSetChanged()
-        })
 
+            recettesAdapter.notifyDataSetChanged()})
 
         fragmentScope.launch {
             homeViewModel.getRecipes()
@@ -75,7 +72,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
     override fun onItemClicked(position: Int) {
         val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment(_recettes[position].id)
-        Log.d("CCC",_recettes[position].id.toString())
+        //Log.d("CCC",_recettes[position].id.toString())
         findNavController().navigate(action)
     }
 }

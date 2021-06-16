@@ -6,6 +6,7 @@ import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
+import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
@@ -20,17 +21,24 @@ class DetailledRecipeViewModel(application: Application) : AndroidViewModel(appl
     val recipe = MutableLiveData<Recipe>().apply {
         value=null
     }
+    val ingredientsOfTheRecipe = MutableLiveData<MutableList<Ingredient>>().apply {
+        value= mutableListOf()
+    }
+    val stepsOfTheRecipe = MutableLiveData<MutableList<Step>>().apply {
+        value= mutableListOf()
+    }
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
     suspend fun getRecipe(id : Int){
         try {
             val temp = cccRepository.localDataSource.getRecipe(id)
             val tempIng = cccRepository.localDataSource.getIngredientsFromRecipe(id)
-            Log.d("CCC","tempIng.size.toString()")
-            Log.d("CCC",tempIng.toString())
+            val tempStep = cccRepository.localDataSource.getStepsFromRecipe(id)
             withContext(Main)
             {
                 recipe.value = temp
                 title.value= recipe.value!!.name
+                ingredientsOfTheRecipe.value=tempIng
+                stepsOfTheRecipe.value=tempStep
             }
         } catch (e: Exception){
             Log.d("CCC",e.toString())
