@@ -8,10 +8,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
-import com.example.centralecookingclub.data.model.Recipe
 
 class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeList : List<EditRecipe>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-    var editRecipeList : List<EditRecipe> = _editRecipeList
+    lateinit var editRecipeList : List<EditRecipe>
+    init {
+         editRecipeList = _editRecipeList
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerView.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.edit_recipe,parent,false)
         return EditRecipeViewHolder(view)
@@ -31,7 +34,8 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
     }
 
     inner class EditRecipeViewHolder constructor(editRecipe : View): RecyclerView.ViewHolder(editRecipe){
-
+        private val descriptionTV : TextView = editRecipe.findViewById(R.id.description)
+        private val numOfStepTV : TextView = editRecipe.findViewById(R.id.numEtape)
         /*
         init {
             itemView.setOnClickListener{
@@ -44,7 +48,7 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         }
         */
         fun bind(editRecipe: EditRecipe){
-
+            //descriptionTV.text=editRecipe.description
         }
     }
     interface ActionListener {

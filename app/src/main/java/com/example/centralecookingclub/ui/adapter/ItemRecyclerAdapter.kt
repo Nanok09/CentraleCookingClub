@@ -43,7 +43,6 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
             }
         }
         fun bind(recette: Recipe){
-            Log.d("CCC",recette.name)
             titletextView.text = recette.name
             timeTextView.text = recette.time.toString()
             nbPersonnesTextView.text=recette.numberOfPeople.toString()
