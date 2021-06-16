@@ -1,5 +1,6 @@
 <component name="ProjectCodeStyleConfiguration">
   <code_scheme name="Project" version="173">
+
     <codeStyleSettings language="XML">
       <option name="FORCE_REARRANGE_MODE" value="1" />
       <indentOptions>
@@ -113,5 +114,6 @@
         </rules>
       </arrangement>
     </codeStyleSettings>
+
   </code_scheme>
 </component>

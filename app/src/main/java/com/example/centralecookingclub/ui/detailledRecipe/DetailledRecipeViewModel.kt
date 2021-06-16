@@ -1,4 +1,4 @@
-package com.example.centralecookingclub.ui.home
+package com.example.centralecookingclub.ui.detailledRecipe
 
 import android.app.Application
 import android.util.Log
@@ -12,22 +12,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+class DetailledRecipeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is home Fragment"
+    val title = MutableLiveData<String>().apply {
+        value = ""
     }
-    var recettes = MutableLiveData<MutableList<Recipe>>()
+    val recipe = MutableLiveData<Recipe>().apply {
+        value=null
+    }
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
-    val text: LiveData<String> = _text
-
-    suspend fun getRecipes(){
+    suspend fun getRecipe(id : Int){
         try {
-            val recipe = cccRepository.localDataSource.getAllRecipes()
+            val temp = cccRepository.localDataSource.getRecipe(id)
             withContext(Main)
             {
-                recettes.value =recipe
-                Log.d("CCC", recettes.value!![0].name)
+                recipe.value = temp
+                title.value= recipe.value!!.name
             }
         } catch (e: Exception){
             Log.d("CCC",e.toString())
