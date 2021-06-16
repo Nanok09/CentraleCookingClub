@@ -24,6 +24,9 @@ class DetailledRecipeViewModel(application: Application) : AndroidViewModel(appl
     suspend fun getRecipe(id : Int){
         try {
             val temp = cccRepository.localDataSource.getRecipe(id)
+            val tempIng = cccRepository.localDataSource.getIngredientsFromRecipe(id)
+            Log.d("CCC","tempIng.size.toString()")
+            Log.d("CCC",tempIng.toString())
             withContext(Main)
             {
                 recipe.value = temp
