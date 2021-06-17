@@ -10,6 +10,8 @@ import com.example.centralecookingclub.data.source.database.dao.IngredientDao
 import com.example.centralecookingclub.data.source.database.dao.RecipeDao
 import com.example.centralecookingclub.data.source.database.dao.RecipeQuantityDao
 import com.example.centralecookingclub.data.source.database.dao.StepDao
+import androidx.room.TypeConverters
+import com.example.centralecookingclub.data.model.*
 
 
 @Database(
@@ -21,6 +23,7 @@ import com.example.centralecookingclub.data.source.database.dao.StepDao
     ],
     version = 1
 )
+@TypeConverters(Converters::class)
 abstract class CCCDatabase: RoomDatabase() {
     abstract fun ingredientDao(): IngredientDao
     abstract fun stepDao(): StepDao
