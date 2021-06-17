@@ -30,7 +30,7 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         when(holder)
         {
             is EditRecipeViewHolder ->{
-                holder.bind(editRecipeList.get(position))
+                holder.bind(editRecipeList.get(position),position)
             }
         }
     }
@@ -38,25 +38,13 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
     inner class EditRecipeViewHolder constructor(editRecipe : View): RecyclerView.ViewHolder(editRecipe){
         private val descriptionTV : TextView = editRecipe.findViewById(R.id.description)
         private val numOfStepTV : TextView = editRecipe.findViewById(R.id.numEtape)
-        private val stepImg: ImageView = editRecipe.findViewById(R.id.imageEtape)
 
-        init {
-
-            stepImg.setOnClickListener{
-                val itemPosition = bindingAdapterPosition
-                if (itemPosition != RecyclerView.NO_POSITION) {
-                    val clickedItem = editRecipeList[itemPosition]
-                    actionListener.onItemClicked(itemPosition)
-                }
-            }
-        }
-
-        fun bind(editRecipe: EditRecipe){
-            //descriptionTV.text=editRecipe.description
+        fun bind(editRecipe: EditRecipe,position: Int){
+            numOfStepTV.text= position.toString()
         }
     }
     interface ActionListener {
 
-        fun onItemClicked(position: Int)
+        fun onItemClicked(position: Int,stepImage :ImageView)
     }
 }
