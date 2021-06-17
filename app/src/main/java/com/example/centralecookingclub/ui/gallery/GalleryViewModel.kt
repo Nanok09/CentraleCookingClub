@@ -16,7 +16,9 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     private val _text = MutableLiveData<String>().apply {
         value = "This is gallery Fragment"
     }
-    var editRecipeList = MutableLiveData<MutableList<EditRecipe>>()
+    var editRecipeList = MutableLiveData<MutableList<EditRecipe>>().apply {
+        value = mutableListOf<EditRecipe>(EditRecipe())
+    }
     val text: LiveData<String> = _text
 
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
@@ -44,6 +46,13 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
                 steps.value = ViewState.Error(e.message.orEmpty())
             }
         }
+    }
+    fun addEditRecipe()
+    {
+        val temp = mutableListOf<EditRecipe>()
+        temp.addAll(editRecipeList.value!!)
+        temp.add(EditRecipe())
+        editRecipeList.value=temp
     }
 
     sealed class ViewState{

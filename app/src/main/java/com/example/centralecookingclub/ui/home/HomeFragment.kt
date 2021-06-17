@@ -45,6 +45,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         homeViewModel =
             ViewModelProvider(this).get(HomeViewModel::class.java)
 
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val root: View = binding.root
         return root

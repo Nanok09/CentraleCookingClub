@@ -13,6 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -22,6 +23,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.databinding.FragmentGalleryBinding
@@ -35,7 +37,7 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 
 
-class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
+class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, View.OnClickListener {
 
     val REQUEST_CODE = 100
     private val CAT = "EDPMR"
@@ -46,6 +48,8 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
     lateinit var recyclerView : RecyclerView
     lateinit var _editRecipeList : MutableList<EditRecipe>
     lateinit var addImg: ImageView
+    lateinit var addStepBtn : ImageView
+    lateinit var btnvalidate : Button
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -64,21 +68,24 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
     ): View? {
         galleryViewModel =
             ViewModelProvider(this).get(GalleryViewModel::class.java)
-
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        btnvalidate= binding.btnValidateRecipe
+        addStepBtn=binding.addStepBtn
+        addStepBtn.setOnClickListener(this)
+        addImg=binding.imageofRecipe
+        addImg.setOnClickListener(this)
+
         val root: View = binding.root
-        addImg = binding.imageView2
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         galleryViewModel.editRecipeList.observe(viewLifecycleOwner, Observer { editRecipeList ->
+            Log.d("CCC","observe")
             _editRecipeList.clear()
             _editRecipeList.addAll(editRecipeList)
             editRecipeAdapter.notifyDataSetChanged()})
-
-        galleryViewModel.editRecipeList.value= mutableListOf(EditRecipe())
         _editRecipeList = mutableListOf()
 
         val fragmentScope = CoroutineScope(Dispatchers.IO)
@@ -114,8 +121,8 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
     }
 
 
-    override fun onItemClicked(position: Int) {
-
+    override fun onItemClicked(position: Int, stepImage : ImageView) {
+        addImg=stepImage
         alerter("click, lancement openGalleryForImage()")
         openGalleryForImage()
 
@@ -144,12 +151,25 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener {
         //We get the image from the hidden image view created by openGalleryForImage()
         var img = (addImg.drawable as BitmapDrawable).bitmap
 
-        TODO() //get stepNumber, description, description short from ui and create Step object
+        /*TODO() //get stepNumber, description, description short from ui and create Step object
         var step = Step(1, 1, "jojo", "koko", "", img)
 
         //Call Viewmodel
-        galleryViewModel.addStep(step)
+        galleryViewModel.addStep(step)*/
 
+    }
+
+    override fun onClick(v: View?) {
+        when(v?.id)
+        {
+            R.id.addStepBtn->{
+                Log.d("CCC", galleryViewModel.editRecipeList.value?.size.toString())
+                galleryViewModel.addEditRecipe()
+            }
+            R.id.imageofRecipe->{
+                openGalleryForImage()
+            }
+        }
     }
 
 
