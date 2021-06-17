@@ -10,6 +10,9 @@ import com.example.centralecookingclub.data.model.Recipe
 @Dao
 interface RecipeDao {
 
+    @Query("SELECT MAX(id) FROM RECIPE_TABLE")
+    suspend fun getLastId(): Int
+
     @Query("SELECT * FROM RECIPE_TABLE")
     suspend fun getAllRecipes(): MutableList<Recipe>
 

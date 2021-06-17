@@ -57,7 +57,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         editRecipeList.value=temp
     }
 
-    fun saveRecipeToDatabase(recipeToAdd: Recipe){
+    suspend fun saveRecipeToDatabase(recipeToAdd: Recipe){
         viewModelScope.launch {
 
             recipe.value = ViewState.Loading
@@ -67,12 +67,11 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
             } catch (e: Exception){
                 recipe.value = ViewState.Error(e.message.orEmpty())
             }
-
         }
     }
 
 
-    fun saveSteps(stepsToAdd: MutableList<Step>){
+    suspend fun saveSteps(stepsToAdd: MutableList<Step>){
         viewModelScope.launch {
 
             steps.value = ViewState.Loading
@@ -85,6 +84,10 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
                 steps.value = ViewState.Error(e.message.orEmpty())
             }
         }
+    }
+
+    suspend fun getLastId(): Int {
+        return cccRepository.localDataSource.getLastId()
     }
 
     sealed class ViewState{

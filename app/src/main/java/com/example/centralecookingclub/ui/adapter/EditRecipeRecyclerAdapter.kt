@@ -36,11 +36,10 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
     }
 
     inner class EditRecipeViewHolder constructor(editRecipe : View): RecyclerView.ViewHolder(editRecipe){
-        private val descriptionTV : TextView = editRecipe.findViewById(R.id.description)
         private val numOfStepTV : TextView = editRecipe.findViewById(R.id.numEtape)
 
         fun bind(editRecipe: EditRecipe,position: Int){
-            numOfStepTV.text= position.toString()
+            numOfStepTV.text= (position+1).toString()
         }
     }
     interface ActionListener {

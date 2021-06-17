@@ -47,6 +47,9 @@ class LocalDataSource (
     suspend fun getIngredient(id: Int) = ingredientDao.getIngredient(id)
     suspend fun addIngredient(ingredient: Ingredient) = ingredientDao.addIngredient(ingredient)
     suspend fun getIngredientsFromRecipe(idRecipe: Int) = ingredientDao.getIngredientsFromRecipe(idRecipe)
+    suspend fun getLastId(): Int {
+        return recipeDao.getLastId()
+    }
 
 
 }

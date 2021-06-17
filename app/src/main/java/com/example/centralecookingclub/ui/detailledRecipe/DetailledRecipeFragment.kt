@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -30,6 +31,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
     private lateinit var detailledRecipeViewModel: DetailledRecipeViewModel
     private var _binding: FragmentDetailledRecipeBinding? = null
     private lateinit var titleTextView : TextView
+    private lateinit var image :ImageView
     lateinit var ingAndStepAdapter : IngAndStepRecyclerAdapter
     lateinit var recyclerView : RecyclerView
     lateinit var listOfIngredient : MutableList<Ingredient>
@@ -64,6 +66,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
         recyclerView.layoutManager= LinearLayoutManager(this.activity)
         ingAndStepAdapter = IngAndStepRecyclerAdapter(this,listIngAndStep)
         recyclerView.adapter = ingAndStepAdapter
+        image=binding.imageDetailledRecipe
 
         detailledRecipeViewModel.ingredientsOfTheRecipe.observe(viewLifecycleOwner, Observer { ingredientsOfTheRecipe ->
             listOfIngredient.clear()
@@ -79,6 +82,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
             detailledRecipeViewModel.getRecipe(args.idRecipe)
             withContext(Main)
             {
+                image.setImageBitmap(detailledRecipeViewModel.recipe.value?.recipeImage)
                 titleTextView.text = detailledRecipeViewModel.title.value
             }
         }

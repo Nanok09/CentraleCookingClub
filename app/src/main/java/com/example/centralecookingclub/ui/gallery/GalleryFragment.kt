@@ -13,10 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -53,6 +50,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     lateinit var addStepBtn : ImageView
     lateinit var btnvalidate : Button
     lateinit var recipeName: EditText
+    private val fragmentScope = CoroutineScope(Dispatchers.IO)
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -183,17 +181,26 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
             }
 
             R.id.btnValidateRecipe->{
-                var addImgBitmap = (addImg.drawable as BitmapDrawable).bitmap
-                val recipeId = 2
-                val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4)
-                val recipeSteps = mutableListOf<Step>(
-                    Step(recipeId,1, "Etape 1", "Etape 1", "", addImgBitmap),
-                    Step(recipeId,2, "Etape 2", "Etape 2", "", addImgBitmap),
-                    Step(recipeId,3, "Etape 3", "Etape 3", "", addImgBitmap)
-                    )
+                fragmentScope.launch {
+                    var addImgBitmap = (addImg.drawable as BitmapDrawable).bitmap
+                    val recipeId = galleryViewModel.getLastId()+1
+                    val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4)
+                    val recipeSteps = mutableListOf<Step>()
+                    _editRecipeList.forEachIndexed{
+                            index,element ->val view = recyclerView.layoutManager?.findViewByPosition(index)
+                        val textview = view!!.findViewById(R.id.numEtape) as TextView
+                        val textViewDecription = view.findViewById(R.id.description) as TextView
+                        recipeSteps.add(Step(recipeId,
+                            textview.text.toString().toInt(),
+                            textViewDecription.text.toString(),
+                            textViewDecription.text.toString(),
+                            "test",
+                            addImgBitmap))
+                    }
+                    galleryViewModel.saveSteps(recipeSteps)
+                    galleryViewModel.saveRecipeToDatabase(recipe)
+                }
 
-                galleryViewModel.saveSteps(recipeSteps)
-                galleryViewModel.saveRecipeToDatabase(recipe)
             }
         }
     }
