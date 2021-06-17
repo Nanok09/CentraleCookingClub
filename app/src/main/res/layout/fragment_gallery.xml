@@ -22,7 +22,7 @@
         android:layout_marginStart="75dp"
         app:layout_constraintTop_toTopOf="parent" />
     <ImageView
-        android:src="@drawable/ic_baseline_hourglass_empty_24"
+        android:src="@drawable/no_image"
         android:scaleType="fitXY"
         android:id="@+id/imageofRecipe"
         android:layout_width="match_parent"

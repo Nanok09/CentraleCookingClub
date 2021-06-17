@@ -43,6 +43,7 @@ class LocalDataSource (
     suspend fun getStepsFromRecipe(idRecipe: Int) = stepDao.getStepsFromRecipe(idRecipe)
     suspend fun addStep(step: Step) = stepDao.addStep(step)
 
+
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
     suspend fun addRecipe(reciepe: Recipe) = recipeDao.addRecipe(reciepe)
@@ -51,6 +52,9 @@ class LocalDataSource (
     suspend fun getIngredient(id: Int) = ingredientDao.getIngredient(id)
     suspend fun addIngredient(ingredient: Ingredient) = ingredientDao.addIngredient(ingredient)
     suspend fun getIngredientsFromRecipe(idRecipe: Int) = ingredientDao.getIngredientsFromRecipe(idRecipe)
+    suspend fun getLastId(): Int {
+        return recipeDao.getLastId()
+    }
 
     //////////////////////////////////////
     // Récupération de données précises //
