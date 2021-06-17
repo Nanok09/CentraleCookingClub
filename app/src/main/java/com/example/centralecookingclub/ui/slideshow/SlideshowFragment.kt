@@ -6,33 +6,40 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.MainActivity
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.databinding.FragmentSlideshowBinding
+import com.example.centralecookingclub.ui.adapter.ShoppingListItemAdapter
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 
-class SlideshowFragment() : Fragment(), View.OnClickListener {
+class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener, View.OnClickListener {
 
     private val activityScope = CoroutineScope(Dispatchers.IO)
     private val CAT = "EDPMR"
-    private var btnCreateToast : Button? = null
+    //private var btnCreateToast : Button? = null
 
     private lateinit var slideshowViewModel: SlideshowViewModel
     private var _binding: FragmentSlideshowBinding? = null
 
+    private lateinit var addButton: Button
+    private lateinit var newItemName: EditText
+    private lateinit var recyclerView: RecyclerView
+
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+
 
     override fun onCreateView(
 
@@ -46,14 +53,19 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        val textView: TextView = binding.textSlideshow
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })
+        addButton = binding.addButton
+        addButton.setOnClickListener(this)
+        newItemName = binding.newItemNameEditText
+        recyclerView = binding.shoppingListItemRecyclerView
 
-        //Création d'un bouton cliquable.
-        btnCreateToast = root.findViewById(R.id.btnToast)
-        btnCreateToast!!.setOnClickListener(this)
+//        val textView: TextView = binding.textSlideshow
+//        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
+//            textView.text = it
+//        })
+
+//        //Création d'un bouton cliquable.
+//        btnCreateToast = root.findViewById(R.id.btnToast)
+//        btnCreateToast!!.setOnClickListener(this)
 
 //        //TEST POUR UNE RECETTE DE CRÊPES
 //        //REMPLISSAGE DE LA DATABASE INGREDIENTS
@@ -83,7 +95,7 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         _binding = null
     }
 
-    override fun onClick(v: View?) {
+    /*override fun onClick(v: View?) {
 
 //        activityScope.launch {
 //            val ingredients = cccRepository.localDataSource.getAllIngredients()
@@ -117,7 +129,7 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         }
 
 
-    }
+    }*/
 
 
     fun addIngredient(ingredient: Ingredient){
@@ -127,4 +139,35 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
     fun addRecipe(recipe: Recipe) {
         slideshowViewModel.addRecipe(recipe)
     }
+
+
+
+
+
+
+
+
+
+
+    override fun onItemClick(view: View, position: Int) {
+        //TODO("Not yet implemented")
+        Log.i("ShoppingListTest", "un item a été cliqué")
+        when (view.id) {
+            R.id.boughtCheckBox -> {
+                Log.i("ShoppingListTest", "bought checkbox")
+                //TODO : checker la checkbox et enregistrer dans db
+            }
+            R.id.deleteButton -> {
+                Log.i("ShoppingListTest","delete button")
+                //TODO : delete l'item de la shopping list
+            }
+        }
+    }
+
+
+    override fun onClick(v: View?) {
+        Log.i("ShoppingListTest", "ajouter item à shopping list")
+    }
+
+
 }

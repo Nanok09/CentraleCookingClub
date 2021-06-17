@@ -1,6 +1,8 @@
 package com.example.centralecookingclub.ui.slideshow
 
 import android.app.Application
+import android.util.Log
+import android.view.View
 import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
@@ -67,4 +69,14 @@ class SlideshowViewModel(application: Application) : AndroidViewModel(applicatio
         data class Content(val ingredients: MutableList<Ingredient>) : ViewState()
         data class Error(val message: String) : ViewState()
     }
+
+
+
+
+
+
+
+
+
+
 }
