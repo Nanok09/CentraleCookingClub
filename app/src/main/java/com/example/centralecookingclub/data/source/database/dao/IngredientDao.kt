@@ -9,7 +9,6 @@ import com.example.centralecookingclub.data.model.Ingredient
 @Dao
 interface IngredientDao {
 
-
     @Query("SELECT * FROM INGREDIENT_TABLE")
     suspend fun getAllIngredients(): MutableList<Ingredient>
 
