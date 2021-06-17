@@ -23,7 +23,6 @@ class DetailledRecipeViewModel(application: Application) : AndroidViewModel(appl
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
     suspend fun getRecipe(id : Int){
         try {
-            cccRepository.localDataSource.initializeAllTables()
             val temp = cccRepository.localDataSource.getRecipe(id)
             val tempIng = cccRepository.localDataSource.getIngredientsFromRecipe(id)
             Log.d("CCC","tempIng.size.toString()")
