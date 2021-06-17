@@ -29,20 +29,38 @@ class DatabaseCreator(application: Application, context: Context) {
         ///////////////////////////////
         //Ajoute des ingrédients définis à la database
         suspend fun initializeIngredients() {
+            //CREPES
             val egg = Ingredient(1, "egg")
             val milk = Ingredient(2, "milk")
             val flour = Ingredient(3, "flour")
             val salt = Ingredient(4, "salt")
             val sugar = Ingredient(5, "sugar")
             val butter = Ingredient(6, "butter")
-            val tomatoes = Ingredient(7, "tomatoes")
             cccRepository.localDataSource.addIngredient(egg)
             cccRepository.localDataSource.addIngredient(milk)
             cccRepository.localDataSource.addIngredient(flour)
             cccRepository.localDataSource.addIngredient(salt)
             cccRepository.localDataSource.addIngredient(sugar)
             cccRepository.localDataSource.addIngredient(butter)
+
+            //Autre
+            val tomatoes = Ingredient(7, "tomatoes")
             cccRepository.localDataSource.addIngredient(tomatoes)
+
+            //PATES CARBO
+            val dicedbacon = Ingredient(8, "diced bacon")
+            val parmesan = Ingredient(9, "parmesan")
+            val pepper = Ingredient(10, "pepper")
+            val spaghetti = Ingredient(11, "spaghetti")
+            val eggyolks = Ingredient(12, "egg yolks")
+            val cream = Ingredient(13, "cream")
+
+            cccRepository.localDataSource.addIngredient(dicedbacon)
+            cccRepository.localDataSource.addIngredient(parmesan)
+            cccRepository.localDataSource.addIngredient(pepper)
+            cccRepository.localDataSource.addIngredient(spaghetti)
+            cccRepository.localDataSource.addIngredient(eggyolks)
+            cccRepository.localDataSource.addIngredient(cream)
         }
 
         //Ajoute des recettes à la database
@@ -157,15 +175,30 @@ class DatabaseCreator(application: Application, context: Context) {
             val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250)
             val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1)
             val quantitySugarCrepes = RecipeQuantity(5, 1, "mass", 50)
-            val quantityButter = RecipeQuantity(6, 1, "mass", 50)
+            val quantityButterCrepes = RecipeQuantity(6, 1, "mass", 50)
             cccRepository.localDataSource.addRecipeQuantity(quantityEggCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityMilkCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityFlourCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantitySaltCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantitySugarCrepes)
-            cccRepository.localDataSource.addRecipeQuantity(quantityButter)
+            cccRepository.localDataSource.addRecipeQuantity(quantityButterCrepes)
 
             //PATES CARBO
+            val quantityDicedBaconCarbonara = RecipeQuantity(8,2, "mass", 160)
+            val quantityParmesanCarbonara = RecipeQuantity(9, 2, "mass", 60)
+            val quantityPepperCarbonara = RecipeQuantity(10, 2, "int", 1)
+            val quantitySpaghettiCarbonara = RecipeQuantity(11, 2, "mass", 200)
+            val quantityEggYolksCarbonara = RecipeQuantity(12, 2, "int", 2)
+            val quantityCreamCarbonara = RecipeQuantity(13, 2, "volume", 15)
+            val quantitySaltCarbonara= RecipeQuantity(4, 2, "int", 1)
+
+            cccRepository.localDataSource.addRecipeQuantity(quantityDicedBaconCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityParmesanCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityPepperCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantitySpaghettiCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityEggYolksCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityCreamCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantitySaltCarbonara)
         }
 
 
