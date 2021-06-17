@@ -17,6 +17,8 @@ class DatabaseCreator(application: Application, context: Context) {
         CCCRepository.newInstance(application)
     }
 
+    private val imgCrepe: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.crepes)
+
 
 
 
@@ -43,48 +45,47 @@ class DatabaseCreator(application: Application, context: Context) {
 
         //Ajoute des recettes à la database
         suspend fun initialzeRecipes() {
-            val crepes = Recipe(1, "crepes", 25, "test", 4)
+            val crepes = Recipe(1, "crepes", 25, imgCrepe, 4)
             cccRepository.localDataSource.addRecipe(crepes)
         }
 
-    val randomImgBitmap : Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.crepes)
         //Ajoute des étapes à la database
         suspend fun initializeSteps() {
             val stepcrepes1 = Step(
                 1, 1,
                 "Mettez la farine dans un saladier avec le sel et le sucre.",
                 "Mélanger farine + sel + sucre.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             val stepcrepes2 = Step(
                 1, 2,
                 "Faites un puits au milieu et versez-y les œufs.",
                 "Faites un puits au milieu et versez-y les œufs.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             val stepcrepes3 = Step(
                 1, 3,
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             val stepcrepes4 = Step(
                 1, 4,
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             val stepcrepes5 = Step(
                 1, 5,
                 "Faites cuire les crêpes dans une poêle chaude (par précaution légèrement huilée si votre poêle à crêpes n'est pas anti-adhésive). Versez une petite louche de pâte dans la poêle, faites un mouvement de rotation pour répartir la pâte sur toute la surface. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
                 "Faire cuire et retourner.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             val stepcrepes6 = Step(
                 1, 6,
                 "Laissez cuire environ une minute de ce côté et la crêpe est prête.",
                 "Cuire 1min.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
             cccRepository.localDataSource.addStep(stepcrepes1)
             cccRepository.localDataSource.addStep(stepcrepes2)

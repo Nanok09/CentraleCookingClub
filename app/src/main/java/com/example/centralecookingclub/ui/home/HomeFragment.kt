@@ -1,16 +1,20 @@
 package com.example.centralecookingclub.ui.home
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.databinding.FragmentHomeBinding
 import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
@@ -26,9 +30,12 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
     lateinit var recyclerView : RecyclerView
     lateinit var _recettes : MutableList<Recipe>
 
+
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +52,9 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        _recettes= mutableListOf(Recipe(4,"test",45,"test",5))
+
+        val imgCrepe: Bitmap = BitmapFactory.decodeResource(activity?.resources, R.drawable.crepes)
+        _recettes= mutableListOf(Recipe(4,"test",45,imgCrepe,5))
 
         val fragmentScope = CoroutineScope(Dispatchers.IO)
         recyclerView = _binding!!.itemRecyclerView
@@ -59,6 +68,9 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
             recettesAdapter.notifyDataSetChanged()})
 
+
+
+        Log.i("EDPMR", "HomeFragmentGetrecipes")
         fragmentScope.launch {
             homeViewModel.getRecipes()
         }

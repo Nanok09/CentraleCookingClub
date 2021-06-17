@@ -1,6 +1,7 @@
 package com.example.centralecookingclub
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.navigation.NavigationView
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.i("EDPMR", "MainActivity")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -51,6 +53,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
         val databaseInitializer = DatabaseCreator(application, this)
+        Log.i("EDPMR", "Databasecreation")
         activityScope.launch {
             databaseInitializer.initializeAllTables()
         }

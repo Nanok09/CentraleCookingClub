@@ -55,25 +55,25 @@ class SlideshowFragment() : Fragment(), View.OnClickListener {
         btnCreateToast = root.findViewById(R.id.btnToast)
         btnCreateToast!!.setOnClickListener(this)
 
-        //TEST POUR UNE RECETTE DE CRÊPES
-        //REMPLISSAGE DE LA DATABASE INGREDIENTS
-        // L'idée après c'est de mettre la création de la DB dans une activité tierce
-        val egg = Ingredient (1, "egg")
-        val milk = Ingredient(2, "milk")
-        val flour = Ingredient(3, "flour")
-        val salt = Ingredient(4, "salt")
-        val sugar = Ingredient(5, "sugar")
-        val butter = Ingredient(6, "butter")
-        addIngredient(egg)
-        addIngredient(milk)
-        addIngredient(flour)
-        addIngredient(salt)
-        addIngredient(sugar)
-        addIngredient(butter)
-
-        //REMPLISSAGE DE LA DATA BASE RECETTES
-        val crepes = Recipe(1,"crepes", 25, "test", 4)
-        addRecipe(crepes)
+//        //TEST POUR UNE RECETTE DE CRÊPES
+//        //REMPLISSAGE DE LA DATABASE INGREDIENTS
+//        // L'idée après c'est de mettre la création de la DB dans une activité tierce
+//        val egg = Ingredient (1, "egg")
+//        val milk = Ingredient(2, "milk")
+//        val flour = Ingredient(3, "flour")
+//        val salt = Ingredient(4, "salt")
+//        val sugar = Ingredient(5, "sugar")
+//        val butter = Ingredient(6, "butter")
+//        addIngredient(egg)
+//        addIngredient(milk)
+//        addIngredient(flour)
+//        addIngredient(salt)
+//        addIngredient(sugar)
+//        addIngredient(butter)
+//
+//        //REMPLISSAGE DE LA DATA BASE RECETTES
+//        val crepes = Recipe(1,"crepes", 25, "test", 4)
+//        addRecipe(crepes)
         return root
     }
 
