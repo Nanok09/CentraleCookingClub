@@ -90,23 +90,17 @@ class DatabaseCreator(application: Application, context: Context) {
             val stepCrepes3 = Step(
                 1, 3,
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
+                "Mélanger doucement. Puis ajouter lait.",
                 "/", imgCrepe
             )
             val stepCrepes4 = Step(
                 1, 4,
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
+                "Dans une poële chaude, versez une petite louche de pâte dans la poêle, répartir la pâte. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
+                "Faire cuire et retourner.",
                 "/", imgCrepe
             )
             val stepCrepes5 = Step(
                 1, 5,
-                "Faites cuire les crêpes dans une poêle chaude (par précaution légèrement huilée si votre poêle à crêpes n'est pas anti-adhésive). Versez une petite louche de pâte dans la poêle, faites un mouvement de rotation pour répartir la pâte sur toute la surface. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
-                "Faire cuire et retourner.",
-                "/", imgCrepe
-            )
-            val stepCrepes6 = Step(
-                1, 6,
                 "Laissez cuire environ une minute de ce côté et la crêpe est prête.",
                 "Cuire 1min.",
                 "/", imgCrepe
@@ -117,7 +111,6 @@ class DatabaseCreator(application: Application, context: Context) {
             cccRepository.localDataSource.addStep(stepCrepes3)
             cccRepository.localDataSource.addStep(stepCrepes4)
             cccRepository.localDataSource.addStep(stepCrepes5)
-            cccRepository.localDataSource.addStep(stepCrepes6)
 
             //Recette des pâtes carbonaras
 
