@@ -17,6 +17,9 @@ class DatabaseCreator(application: Application, context: Context) {
         CCCRepository.newInstance(application)
     }
 
+    private val imgCrepe: Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.crepes)
+    private val imgSpaghettiCarbonara: Bitmap = BitmapFactory.decodeResource(context.resources, R
+        .drawable.spaghetticarbonara)
 
 
 
@@ -26,87 +29,169 @@ class DatabaseCreator(application: Application, context: Context) {
         ///////////////////////////////
         //Ajoute des ingrédients définis à la database
         suspend fun initializeIngredients() {
+            //CREPES
             val egg = Ingredient(1, "egg")
             val milk = Ingredient(2, "milk")
             val flour = Ingredient(3, "flour")
             val salt = Ingredient(4, "salt")
             val sugar = Ingredient(5, "sugar")
             val butter = Ingredient(6, "butter")
-
             cccRepository.localDataSource.addIngredient(egg)
             cccRepository.localDataSource.addIngredient(milk)
             cccRepository.localDataSource.addIngredient(flour)
             cccRepository.localDataSource.addIngredient(salt)
             cccRepository.localDataSource.addIngredient(sugar)
             cccRepository.localDataSource.addIngredient(butter)
+
+            //Autre
+            val tomatoes = Ingredient(7, "tomatoes")
+            cccRepository.localDataSource.addIngredient(tomatoes)
+
+            //PATES CARBO
+            val dicedbacon = Ingredient(8, "diced bacon")
+            val parmesan = Ingredient(9, "parmesan")
+            val pepper = Ingredient(10, "pepper")
+            val spaghetti = Ingredient(11, "spaghetti")
+            val eggyolks = Ingredient(12, "egg yolks")
+            val cream = Ingredient(13, "cream")
+
+            cccRepository.localDataSource.addIngredient(dicedbacon)
+            cccRepository.localDataSource.addIngredient(parmesan)
+            cccRepository.localDataSource.addIngredient(pepper)
+            cccRepository.localDataSource.addIngredient(spaghetti)
+            cccRepository.localDataSource.addIngredient(eggyolks)
+            cccRepository.localDataSource.addIngredient(cream)
         }
 
         //Ajoute des recettes à la database
         suspend fun initialzeRecipes() {
-            val crepes = Recipe(1, "crepes", 25, "test", 4)
+            val crepes = Recipe(1, "crepes", 25, imgCrepe, 4)
+            val spaghettiCarbonara = Recipe(2, "spaghetti carbonara", 22, imgSpaghettiCarbonara, 4)
             cccRepository.localDataSource.addRecipe(crepes)
+            cccRepository.localDataSource.addRecipe(spaghettiCarbonara)
         }
 
-    val randomImgBitmap : Bitmap = BitmapFactory.decodeResource(context.resources, R.drawable.crepes)
         //Ajoute des étapes à la database
         suspend fun initializeSteps() {
-            val stepcrepes1 = Step(
+
+            //RECETTE DES CREPES
+            val stepCrepes1 = Step(
                 1, 1,
                 "Mettez la farine dans un saladier avec le sel et le sucre.",
                 "Mélanger farine + sel + sucre.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
-            val stepcrepes2 = Step(
+            val stepCrepes2 = Step(
                 1, 2,
                 "Faites un puits au milieu et versez-y les œufs.",
                 "Faites un puits au milieu et versez-y les œufs.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
-            val stepcrepes3 = Step(
+            val stepCrepes3 = Step(
                 1, 3,
                 "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
-                "/", randomImgBitmap
+                "Mélanger doucement. Puis ajouter lait.",
+                "/", imgCrepe
             )
-            val stepcrepes4 = Step(
+            val stepCrepes4 = Step(
                 1, 4,
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit..",
-                "Commencez à mélanger doucement. Quand le mélange devient épais, ajoutez le lait froid petit à petit.",
-                "/", randomImgBitmap
-            )
-            val stepcrepes5 = Step(
-                1, 5,
-                "Faites cuire les crêpes dans une poêle chaude (par précaution légèrement huilée si votre poêle à crêpes n'est pas anti-adhésive). Versez une petite louche de pâte dans la poêle, faites un mouvement de rotation pour répartir la pâte sur toute la surface. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
+                "Dans une poële chaude, versez une petite louche de pâte dans la poêle, répartir la pâte. Posez sur le feu et quand le tour de la crêpe se colore en roux clair, il est temps de la retourner.",
                 "Faire cuire et retourner.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
-            val stepcrepes6 = Step(
-                1, 6,
+            val stepCrepes5 = Step(
+                1, 5,
                 "Laissez cuire environ une minute de ce côté et la crêpe est prête.",
                 "Cuire 1min.",
-                "/", randomImgBitmap
+                "/", imgCrepe
             )
-            cccRepository.localDataSource.addStep(stepcrepes1)
-            cccRepository.localDataSource.addStep(stepcrepes2)
-            cccRepository.localDataSource.addStep(stepcrepes3)
-            cccRepository.localDataSource.addStep(stepcrepes4)
-            cccRepository.localDataSource.addStep(stepcrepes5)
-            cccRepository.localDataSource.addStep(stepcrepes6)
+
+            cccRepository.localDataSource.addStep(stepCrepes1)
+            cccRepository.localDataSource.addStep(stepCrepes2)
+            cccRepository.localDataSource.addStep(stepCrepes3)
+            cccRepository.localDataSource.addStep(stepCrepes4)
+            cccRepository.localDataSource.addStep(stepCrepes5)
+
+            //Recette des pâtes carbonaras
+
+            val stepCarbonara1 = Step(2, 1,
+                "Portez à ébullition un faitout d'eau salée. Plongez-y les spaghetti et " +
+                        "laissez-les cuire environ 12 min, jusqu'à ce qu'ils soient al dente.",
+            "Portez à ébullition un faitout d'eau salée. Plongez-y les spaghetti et laissez-les " +
+                    "cuire environ 12 min, jusqu'à ce qu'ils soient al dente.",
+            "/",
+            imgSpaghettiCarbonara)
+
+            val stepCarbonara2 = Step(2, 2,
+                "Pendant la cuisson des spaghetti, faites revenir les lardons à sec dans une poêle, jusqu'à ce qu'ils soient bien dorés.",
+                "Pendant la cuisson des spaghetti, faites revenir les lardons à sec dans une poêle, jusqu'à ce qu'ils soient bien dorés.",
+                "/",
+                imgSpaghettiCarbonara)
+
+            val stepCarbonara3 = Step(2, 3,
+                "Baissez le feu et incorporez la crème fraîche. Salez légèrement, poivrez généreusement et ajoutez les jaunes d'oeufs, en fouettant pour qu'ils ne cuisent pas.",
+                "Baissez le feu et incorporez la crème fraîche. Salez légèrement, poivrez généreusement et ajoutez les jaunes d'oeufs, en fouettant pour qu'ils ne cuisent pas.",
+                "/",
+                imgSpaghettiCarbonara)
+
+            val stepCarbonara4 = Step(2, 4,
+                "Rectifiez l'assaisonnement.",
+                "Rectifiez l'assaisonnement.",
+                "/",
+                imgSpaghettiCarbonara)
+
+            val stepCarbonara5 = Step(2, 5,
+                "Egouttez les pâtes. Versez-les dans la sauteuse, mélangez et transvasez dans un " +
+                        "plat de service.",
+            "Egouttez les pâtes. Versez-les dans la sauteuse, mélangez et transvasez dans un plat" +
+                    " de service.",
+            "/",
+            imgSpaghettiCarbonara)
+
+            val stepCarbonara6 = Step (2, 6, "Servez en présentant le parmesan à part.",
+                "Servez en présentant le parmesan à part.", "/", imgSpaghettiCarbonara
+            )
+
+            cccRepository.localDataSource.addStep(stepCarbonara1)
+            cccRepository.localDataSource.addStep(stepCarbonara2)
+            cccRepository.localDataSource.addStep(stepCarbonara3)
+            cccRepository.localDataSource.addStep(stepCarbonara4)
+            cccRepository.localDataSource.addStep(stepCarbonara5)
+            cccRepository.localDataSource.addStep(stepCarbonara6)
         }
 
         suspend fun initializeRecipeQuantities() {
-            val quantityEggCrepes = RecipeQuantity(1, 1, "int", 4)
-            val quantityMilkCrepes = RecipeQuantity(2, 1, "volume", 1 / 2) //En litres
-            val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250)
-            val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1)
-            val quantitySugarCrepes = RecipeQuantity(5, 1, "mass", 50)
-            val quantityButter = RecipeQuantity(6, 1, "mass", 50)
+
+            //CREPES
+            val quantityEggCrepes = RecipeQuantity(1, 1, "int", 4F)
+            val quantityMilkCrepes = RecipeQuantity(2, 1, "volume", 1F/2F) //En litres
+            val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250F)
+            val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1F)
+            val quantitySugarCrepes = RecipeQuantity(5, 1, "mass", 50F)
+            val quantityButterCrepes = RecipeQuantity(6, 1, "mass", 50F)
             cccRepository.localDataSource.addRecipeQuantity(quantityEggCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityMilkCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityFlourCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantitySaltCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantitySugarCrepes)
-            cccRepository.localDataSource.addRecipeQuantity(quantityButter)
+            cccRepository.localDataSource.addRecipeQuantity(quantityButterCrepes)
+
+            //PATES CARBO
+            val quantityDicedBaconCarbonara = RecipeQuantity(8,2, "mass", 160F)
+            val quantityParmesanCarbonara = RecipeQuantity(9, 2, "mass", 60F)
+            val quantityPepperCarbonara = RecipeQuantity(10, 2, "int", 1F)
+            val quantitySpaghettiCarbonara = RecipeQuantity(11, 2, "mass", 200F)
+            val quantityEggYolksCarbonara = RecipeQuantity(12, 2, "int", 2F)
+            val quantityCreamCarbonara = RecipeQuantity(13, 2, "volume", 15F)
+            val quantitySaltCarbonara= RecipeQuantity(4, 2, "int", 1F)
+
+            cccRepository.localDataSource.addRecipeQuantity(quantityDicedBaconCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityParmesanCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityPepperCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantitySpaghettiCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityEggYolksCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantityCreamCarbonara)
+            cccRepository.localDataSource.addRecipeQuantity(quantitySaltCarbonara)
         }
 
 

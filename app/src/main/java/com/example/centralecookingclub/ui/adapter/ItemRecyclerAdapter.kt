@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
@@ -33,6 +34,8 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
         private val titletextView : TextView = recette.findViewById(R.id.titreItem)
         private val timeTextView : TextView = recette.findViewById(R.id.time)
         private val nbPersonnesTextView : TextView = recette.findViewById(R.id.nombrePersonnes)
+        private val recipeImg: ImageView = recette.findViewById(R.id.imageRecipe)
+
         init {
             itemView.setOnClickListener{
                 val itemPosition = bindingAdapterPosition
@@ -46,6 +49,7 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
             titletextView.text = recette.name
             timeTextView.text = recette.time.toString()
             nbPersonnesTextView.text=recette.numberOfPeople.toString()
+            recipeImg.setImageBitmap(recette.recipeImage)
         }
     }
     interface ActionListener {

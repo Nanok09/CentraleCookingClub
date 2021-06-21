@@ -24,6 +24,8 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
 
     val steps = MutableLiveData<ViewState>()
+    val recipe = MutableLiveData<ViewState>()
+
     fun addStep(step: Step){
         viewModelScope.launch {
             try {
@@ -55,10 +57,46 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         editRecipeList.value=temp
     }
 
+    suspend fun saveRecipeToDatabase(recipeToAdd: Recipe){
+        viewModelScope.launch {
+
+            recipe.value = ViewState.Loading
+            try {
+                recipe.value = ViewState.RecipeContent(recipeToAdd)
+                cccRepository.localDataSource.addRecipe(recipeToAdd)
+            } catch (e: Exception){
+                recipe.value = ViewState.Error(e.message.orEmpty())
+            }
+        }
+    }
+
+
+    suspend fun saveSteps(stepsToAdd: MutableList<Step>){
+        viewModelScope.launch {
+
+            steps.value = ViewState.Loading
+            try {
+                steps.value = ViewState.Content(stepsToAdd)
+                stepsToAdd.forEach {
+                    cccRepository.localDataSource.addStep(it)
+                }
+            } catch (e: Exception){
+                steps.value = ViewState.Error(e.message.orEmpty())
+            }
+        }
+    }
+
+    suspend fun getLastId(): Int {
+        return cccRepository.localDataSource.getLastId()
+    }
+
     sealed class ViewState{
         object Loading : ViewState()
         data class Content(val steps: MutableList<Step>) : ViewState()
+        data class RecipeContent(val recipe: Recipe) : ViewState()
         data class Error(val message: String) : ViewState()
     }
+
+
 
 }

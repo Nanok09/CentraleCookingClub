@@ -13,9 +13,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
+import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.databinding.FragmentGalleryBinding
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
@@ -50,6 +49,8 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     lateinit var addImg: ImageView
     lateinit var addStepBtn : ImageView
     lateinit var btnvalidate : Button
+    lateinit var recipeName: EditText
+    private val fragmentScope = CoroutineScope(Dispatchers.IO)
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -69,11 +70,20 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         galleryViewModel =
             ViewModelProvider(this).get(GalleryViewModel::class.java)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+
+
+        //UI Components
         btnvalidate= binding.btnValidateRecipe
         addStepBtn=binding.addStepBtn
-        addStepBtn.setOnClickListener(this)
         addImg=binding.imageofRecipe
+        recipeName = binding.ETname
+
+
+
+        //OnClickListeners
+        addStepBtn.setOnClickListener(this)
         addImg.setOnClickListener(this)
+        btnvalidate.setOnClickListener(this)
 
         val root: View = binding.root
         return root
@@ -168,6 +178,29 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
             }
             R.id.imageofRecipe->{
                 openGalleryForImage()
+            }
+
+            R.id.btnValidateRecipe->{
+                fragmentScope.launch {
+                    var addImgBitmap = (addImg.drawable as BitmapDrawable).bitmap
+                    val recipeId = galleryViewModel.getLastId()+1
+                    val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4)
+                    val recipeSteps = mutableListOf<Step>()
+                    _editRecipeList.forEachIndexed{
+                            index,element ->val view = recyclerView.layoutManager?.findViewByPosition(index)
+                        val textview = view!!.findViewById(R.id.numEtape) as TextView
+                        val textViewDecription = view.findViewById(R.id.description) as TextView
+                        recipeSteps.add(Step(recipeId,
+                            textview.text.toString().toInt(),
+                            textViewDecription.text.toString(),
+                            textViewDecription.text.toString(),
+                            "test",
+                            addImgBitmap))
+                    }
+                    galleryViewModel.saveSteps(recipeSteps)
+                    galleryViewModel.saveRecipeToDatabase(recipe)
+                }
+
             }
         }
     }
