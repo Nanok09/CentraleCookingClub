@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.view.get
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -155,6 +156,9 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener, 
             R.id.boughtCheckBox -> {
                 Log.i("ShoppingListTest", "bought checkbox")
                 //TODO : checker la checkbox et enregistrer dans db
+
+                Log.i("ShoppingListTest", recyclerView.get(position).toString())
+
             }
             R.id.deleteButton -> {
                 Log.i("ShoppingListTest","delete button")
@@ -167,6 +171,5 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener, 
     override fun onClick(v: View?) {
         Log.i("ShoppingListTest", "ajouter item à shopping list")
     }
-
 
 }
