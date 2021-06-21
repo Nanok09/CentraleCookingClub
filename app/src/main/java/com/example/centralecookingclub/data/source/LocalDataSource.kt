@@ -7,11 +7,9 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.room.Query
 import androidx.room.Room
-import com.example.centralecookingclub.data.model.Ingredient
-import com.example.centralecookingclub.data.model.Recipe
-import com.example.centralecookingclub.data.model.RecipeQuantity
-import com.example.centralecookingclub.data.model.Step
+import com.example.centralecookingclub.data.model.*
 import com.example.centralecookingclub.data.source.database.CCCDatabase
 import kotlin.coroutines.coroutineContext
 
@@ -27,6 +25,7 @@ class LocalDataSource (
     private val stepDao = roomDatabase.stepDao()
     private val recipeDao = roomDatabase.recipeDao()
     private val recipeQuantityDao = roomDatabase.recipeQuantityDao()
+    private val shoppingListItemDao = roomDatabase.shoppingListItemDao()
 
 
     //////////////////////////////////////////
@@ -56,6 +55,8 @@ class LocalDataSource (
     suspend fun getLastId(): Int {
         return recipeDao.getLastId()
     }
+
+    suspend fun getAllShoppingListItems() = shoppingListItemDao.getAllShoppingListItems()
 
     //////////////////////////////////////
     // Récupération de données précises //
@@ -90,5 +91,11 @@ class LocalDataSource (
         val idRecipe = recipe.id
         val faved = recipe.faved
         recipeDao.changeFaved(idRecipe, if (faved == 0) 1 else 0)
+    }
+
+    suspend fun changeBought(shoppingListItem: ShoppingListItem){
+        val idItem = shoppingListItem.idItem
+        val bought = shoppingListItem.bought
+        shoppingListItemDao.changeBought(idItem, if (bought == 0) 1 else 0)
     }
 }
