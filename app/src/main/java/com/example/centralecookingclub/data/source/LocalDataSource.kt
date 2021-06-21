@@ -46,7 +46,8 @@ class LocalDataSource (
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
-    suspend fun addRecipe(reciepe: Recipe) = recipeDao.addRecipe(reciepe)
+    suspend fun addRecipe(recipe: Recipe) = recipeDao.addRecipe(recipe)
+    suspend fun searchRecipe(name : String) = recipeDao.searchRecipe(name)
 
     suspend fun getAllIngredients() = ingredientDao.getAllIngredients()
     suspend fun getIngredient(id: Int) = ingredientDao.getIngredient(id)
@@ -85,5 +86,9 @@ class LocalDataSource (
         return newListQuantities
     }
 
-
+    suspend fun changeFaved(recipe: Recipe){
+        val idRecipe = recipe.id
+        val faved = recipe.faved
+        recipeDao.changeFaved(idRecipe, !faved)
+    }
 }
