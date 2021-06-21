@@ -17,4 +17,3 @@ interface ShoppingListItemDao {
     @Delete
     suspend fun deleteShoppingListItem(shoppingListItem : ShoppingListItem)
 }
-}
