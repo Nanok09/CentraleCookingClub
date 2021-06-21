@@ -65,9 +65,9 @@ class DatabaseCreator(application: Application, context: Context) {
 
         //Ajoute des recettes à la database
         suspend fun initialzeRecipes() {
-            val crepes = Recipe(1, "crepes", 25, imgCrepe, 4, "mamie", false)
+            val crepes = Recipe(1, "crepes", 25, imgCrepe, 4, "mamie", 0)
             val spaghettiCarbonara = Recipe(2, "spaghetti carbonara", 22, imgSpaghettiCarbonara,
-                4, "mamie", false)
+                4, "mamie", 0)
             cccRepository.localDataSource.addRecipe(crepes)
             cccRepository.localDataSource.addRecipe(spaghettiCarbonara)
         }

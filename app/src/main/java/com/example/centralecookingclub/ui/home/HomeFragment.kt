@@ -55,7 +55,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         super.onActivityCreated(savedInstanceState)
 
         val imgCrepe: Bitmap = BitmapFactory.decodeResource(activity?.resources, R.drawable.crepes)
-        _recettes= mutableListOf(Recipe(4,"test",45,imgCrepe,5))
+        _recettes= mutableListOf(Recipe(4,"test",45,imgCrepe,5, "Matyas"))
 
         val fragmentScope = CoroutineScope(Dispatchers.IO)
         recyclerView = _binding!!.itemRecyclerView

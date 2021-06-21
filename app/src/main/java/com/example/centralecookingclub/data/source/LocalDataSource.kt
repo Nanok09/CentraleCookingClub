@@ -89,6 +89,6 @@ class LocalDataSource (
     suspend fun changeFaved(recipe: Recipe){
         val idRecipe = recipe.id
         val faved = recipe.faved
-        recipeDao.changeFaved(idRecipe, !faved)
+        recipeDao.changeFaved(idRecipe, if (faved == 0) 1 else 0)
     }
 }

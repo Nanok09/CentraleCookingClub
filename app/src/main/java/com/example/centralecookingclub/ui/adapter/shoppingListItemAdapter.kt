@@ -20,7 +20,7 @@ class ShoppingListItemAdapter(private val shoppingList: List<ShoppingListItem>, 
 
     override fun onBindViewHolder(holder: ShoppingListItemViewHolder, position: Int) {
         val currentItem = shoppingList[position]
-        holder.checkBoxView.isChecked = currentItem.bought
+        holder.checkBoxView.isChecked = currentItem.bought == 1
         holder.textView.text = currentItem.name
     }
 
