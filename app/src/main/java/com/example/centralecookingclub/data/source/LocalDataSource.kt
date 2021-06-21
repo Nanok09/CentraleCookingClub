@@ -57,7 +57,10 @@ class LocalDataSource (
     }
 
     suspend fun getAllShoppingListItems() = shoppingListItemDao.getAllShoppingListItems()
-
+    suspend fun addShoppingListItem(shoppingListItem: ShoppingListItem) = shoppingListItemDao
+        .addShoppingListItem(shoppingListItem)
+    suspend fun deleteShoppingListItem(shoppingListItem: ShoppingListItem) = shoppingListItemDao
+        .deleteShoppingListItem(shoppingListItem)
     //////////////////////////////////////
     // Récupération de données précises //
     //////////////////////////////////////
