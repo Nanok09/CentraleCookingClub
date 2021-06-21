@@ -150,7 +150,6 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener, 
 
 
     override fun onItemClick(view: View, position: Int) {
-        //TODO("Not yet implemented")
         Log.i("ShoppingListTest", "un item a été cliqué")
         when (view.id) {
             R.id.boughtCheckBox -> {
