@@ -1,10 +1,7 @@
 package com.example.centralecookingclub.data.source.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
-import com.example.centralecookingclub.data.model.Recipe
+import androidx.room.*
+import com.example.centralecookingclub.data.model.ShoppingListItem
 
 @Dao
 interface ShoppingListItemDao {
@@ -13,4 +10,11 @@ interface ShoppingListItemDao {
 
     @Query("UPDATE SHOPPING_LIST_ITEM_TABLE SET bought= :value WHERE idItem=:idItem")
     suspend fun changeBought(idItem: Int, value: Int)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addShoppingListItem(shoppingListItem : ShoppingListItem)
+
+    @Delete
+    suspend fun deleteShoppingListItem(shoppingListItem : ShoppingListItem)
+}
 }
