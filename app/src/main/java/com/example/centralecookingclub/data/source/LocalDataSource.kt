@@ -42,6 +42,7 @@ class LocalDataSource (
     suspend fun getAllSteps() = stepDao.getAllSteps()
     suspend fun getStepsFromRecipe(idRecipe: Int) = stepDao.getStepsFromRecipe(idRecipe)
     suspend fun addStep(step: Step) = stepDao.addStep(step)
+    suspend fun getAllSteps(idRecipe: Int) = stepDao.getAllSteps(idRecipe)
 
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
