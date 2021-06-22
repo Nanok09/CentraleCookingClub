@@ -12,6 +12,8 @@ data class Recipe(
     val name: String,
     val time: Int,
     val recipeImage: Bitmap,
-    var numberOfPeople: Int
+    var numberOfPeople: Int,
+    val authorRecipe: String,
+    val faved: Int = 0,
 
 )

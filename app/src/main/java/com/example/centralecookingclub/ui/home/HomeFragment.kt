@@ -53,6 +53,8 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        
         _recettes = mutableListOf()
         val fragmentScope = CoroutineScope(Dispatchers.IO)
         recyclerView = _binding!!.itemRecyclerView
