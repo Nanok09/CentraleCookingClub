@@ -69,6 +69,14 @@
         android:layout_height="45dp"
         android:text="ok"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnaddIng"
         app:layout_constraintStart_toStartOf="parent" />
+    <Button
+        android:id="@+id/btnaddIng"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:text="add Ingredient"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnValidateRecipe" />
 </androidx.constraintlayout.widget.ConstraintLayout>

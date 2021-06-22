@@ -29,7 +29,6 @@ class LocalDataSource (
     private val recipeDao = roomDatabase.recipeDao()
     private val recipeQuantityDao = roomDatabase.recipeQuantityDao()
 
-
     //////////////////////////////////////////
     // OPERATIONS GENERALES SUR LA DATABASE //
     //////////////////////////////////////////

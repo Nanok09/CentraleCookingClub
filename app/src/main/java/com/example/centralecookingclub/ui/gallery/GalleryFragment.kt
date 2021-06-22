@@ -1,6 +1,8 @@
 package com.example.centralecookingclub.ui.gallery
 
 import android.app.Activity
+import android.app.Dialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -26,14 +28,19 @@ import com.example.centralecookingclub.data.model.EditRecipe
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.databinding.FragmentGalleryBinding
+import com.example.centralecookingclub.ui.adapter.AddIngAdapter
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
+import com.example.centralecookingclub.ui.adapter.IngAndStepRecyclerAdapter
 import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.lang.Exception
 
 
 class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, View.OnClickListener {
@@ -49,8 +56,12 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     lateinit var addImg: ImageView
     lateinit var addStepBtn : ImageView
     lateinit var btnvalidate : Button
+    lateinit var btnAddIng : Button
     lateinit var recipeName: EditText
     private val fragmentScope = CoroutineScope(Dispatchers.IO)
+    private lateinit var dialogBox : Dialog
+    private lateinit var dialogAdapter : AddIngAdapter
+    private lateinit var recyclerDialog: RecyclerView
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -77,20 +88,29 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         addStepBtn=binding.addStepBtn
         addImg=binding.imageofRecipe
         recipeName = binding.ETname
+        btnAddIng = binding.btnaddIng
 
 
 
-        //OnClickListeners
-        addStepBtn.setOnClickListener(this)
-        addImg.setOnClickListener(this)
-        btnvalidate.setOnClickListener(this)
 
         val root: View = binding.root
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //OnClickListeners
+        addStepBtn.setOnClickListener(this)
+        addImg.setOnClickListener(this)
+        btnvalidate.setOnClickListener(this)
 
+        fragmentScope.launch {
+            val list = galleryViewModel.initializeListOfIngredients()
+            dialogAdapter = AddIngAdapter(list)
+            withContext(Main)
+            {
+                btnAddIng.setOnClickListener(this@GalleryFragment)
+            }
+        }
         galleryViewModel.editRecipeList.observe(viewLifecycleOwner, Observer { editRecipeList ->
             Log.d("CCC","observe")
             _editRecipeList.clear()
@@ -103,6 +123,9 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         recyclerView.layoutManager= LinearLayoutManager(this.activity)
         editRecipeAdapter = EditRecipeRecyclerAdapter(this,_editRecipeList)
         recyclerView.adapter = editRecipeAdapter
+        var context = context
+
+
 
         galleryViewModel.steps.observe(viewLifecycleOwner) {
                 viewState ->
@@ -173,7 +196,9 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         when(v?.id)
         {
             R.id.addStepBtn->{
-                Log.d("CCC", galleryViewModel.editRecipeList.value?.size.toString())
+                galleryViewModel.editRecipeList.value?.forEach {
+                    Log.d("CCC", it.toString())
+                }
                 galleryViewModel.addEditRecipe()
             }
             R.id.imageofRecipe->{
@@ -201,6 +226,20 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                     galleryViewModel.saveRecipeToDatabase(recipe)
                 }
 
+            }
+            R.id.btnaddIng->{
+                try {
+                    this.dialogBox = Dialog(this.requireContext())
+                    this.dialogBox.setContentView(R.layout.dialogbox)
+                    recyclerDialog = dialogBox.findViewById(R.id.dialog_recycler_view)
+                    recyclerDialog.layoutManager=LinearLayoutManager(this.requireContext())
+                    recyclerDialog.adapter=dialogAdapter
+                    dialogBox.show()
+                }
+                catch (e : Exception)
+                {
+                    Log.d("CCC","no Context")
+                }
             }
         }
     }

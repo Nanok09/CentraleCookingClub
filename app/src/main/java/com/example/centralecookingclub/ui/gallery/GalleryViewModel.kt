@@ -17,7 +17,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         value = "This is gallery Fragment"
     }
     var editRecipeList = MutableLiveData<MutableList<EditRecipe>>().apply {
-        value = mutableListOf<EditRecipe>(EditRecipe())
+        value = mutableListOf<EditRecipe>(EditRecipe(0))
     }
     val text: LiveData<String> = _text
 
@@ -53,7 +53,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     {
         val temp = mutableListOf<EditRecipe>()
         temp.addAll(editRecipeList.value!!)
-        temp.add(EditRecipe())
+        temp.add(EditRecipe(0))
         editRecipeList.value=temp
     }
 
@@ -88,6 +88,10 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
 
     suspend fun getLastId(): Int {
         return cccRepository.localDataSource.getLastId()
+    }
+
+    suspend fun initializeListOfIngredients() : List<Ingredient> {
+        return cccRepository.localDataSource.getAllIngredients()
     }
 
     sealed class ViewState{
