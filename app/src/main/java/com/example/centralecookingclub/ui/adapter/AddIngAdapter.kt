@@ -34,21 +34,18 @@ class AddIngAdapter( _listAddIng : List<Ingredient>) : RecyclerView.Adapter<Recy
     inner class AddIngViewHolder constructor(addIng : View): RecyclerView.ViewHolder(addIng){
         private val titletextView : TextView = addIng.findViewById(R.id.titleAddIng)
         private val quantityTextView : TextView = addIng.findViewById(R.id.quantityAddIng)
-
-        /*init {
+/*
+        init {
             itemView.setOnClickListener{
                 val itemPosition = bindingAdapterPosition
                 if (itemPosition != RecyclerView.NO_POSITION) {
                     val clickedItem = listAddIng[itemPosition]
-                    actionListener.onItemClicked(itemPosition)
+                    dialog.onItemClickedOnDialog(itemPosition)
                 }
             }
         }*/
         fun bind(addIng: Ingredient){
             titletextView.text = addIng.name
         }
-    }
-    interface ActionListener {
-        fun onItemClicked(position: Int)
     }
 }

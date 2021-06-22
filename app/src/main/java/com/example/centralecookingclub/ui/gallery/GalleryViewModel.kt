@@ -17,7 +17,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         value = "This is gallery Fragment"
     }
     var editRecipeList = MutableLiveData<MutableList<EditRecipe>>().apply {
-        value = mutableListOf<EditRecipe>(EditRecipe(0))
+        value = mutableListOf<EditRecipe>(EditRecipe(1))
     }
     val text: LiveData<String> = _text
 

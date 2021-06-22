@@ -1,5 +1,6 @@
 package com.example.centralecookingclub.ui.adapter
 
+import android.media.Image
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,8 +25,8 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         }
         if(type==1)
         {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.edit_recipe,parent,false)
-            return EditRecipeViewHolder(view)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.image_of_recipe,parent,false)
+            return ImageRecipeViewHolder(view)
         }
         else
         {
@@ -64,10 +65,21 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         }
     }
     inner class EditIngViewHolder constructor(editIng : View): RecyclerView.ViewHolder(editIng){
-
-
         fun bind(editIng: EditRecipe,position: Int){
 
+        }
+    }
+    inner class ImageRecipeViewHolder constructor(image : View): RecyclerView.ViewHolder(image){
+
+        init {
+            itemView.setOnClickListener{
+                val itemPosition = bindingAdapterPosition
+                if (itemPosition != RecyclerView.NO_POSITION) {
+                    val clickedItem = editRecipeList[itemPosition]
+                    val imageview = image.findViewById<ImageView>(R.id.imageofRecipe)
+                    actionListener.onItemClicked(itemPosition,imageview)
+                }
+            }
         }
     }
     interface ActionListener {
