@@ -164,12 +164,12 @@ class DatabaseCreator(application: Application, context: Context) {
         suspend fun initializeRecipeQuantities() {
 
             //CREPES
-            val quantityEggCrepes = RecipeQuantity(1, 1, "int", 4)
-            val quantityMilkCrepes = RecipeQuantity(2, 1, "volume", 1 / 2) //En litres
-            val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250)
-            val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1)
-            val quantitySugarCrepes = RecipeQuantity(5, 1, "mass", 50)
-            val quantityButterCrepes = RecipeQuantity(6, 1, "mass", 50)
+            val quantityEggCrepes = RecipeQuantity(1, 1, "int", 4F)
+            val quantityMilkCrepes = RecipeQuantity(2, 1, "volume", 1F/2F) //En litres
+            val quantityFlourCrepes = RecipeQuantity(3, 1, "mass", 250F)
+            val quantitySaltCrepes = RecipeQuantity(4, 1, "int", 1F)
+            val quantitySugarCrepes = RecipeQuantity(5, 1, "mass", 50F)
+            val quantityButterCrepes = RecipeQuantity(6, 1, "mass", 50F)
             cccRepository.localDataSource.addRecipeQuantity(quantityEggCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityMilkCrepes)
             cccRepository.localDataSource.addRecipeQuantity(quantityFlourCrepes)
@@ -178,13 +178,13 @@ class DatabaseCreator(application: Application, context: Context) {
             cccRepository.localDataSource.addRecipeQuantity(quantityButterCrepes)
 
             //PATES CARBO
-            val quantityDicedBaconCarbonara = RecipeQuantity(8,2, "mass", 160)
-            val quantityParmesanCarbonara = RecipeQuantity(9, 2, "mass", 60)
-            val quantityPepperCarbonara = RecipeQuantity(10, 2, "int", 1)
-            val quantitySpaghettiCarbonara = RecipeQuantity(11, 2, "mass", 200)
-            val quantityEggYolksCarbonara = RecipeQuantity(12, 2, "int", 2)
-            val quantityCreamCarbonara = RecipeQuantity(13, 2, "volume", 15)
-            val quantitySaltCarbonara= RecipeQuantity(4, 2, "int", 1)
+            val quantityDicedBaconCarbonara = RecipeQuantity(8,2, "mass", 160F)
+            val quantityParmesanCarbonara = RecipeQuantity(9, 2, "mass", 60F)
+            val quantityPepperCarbonara = RecipeQuantity(10, 2, "int", 1F)
+            val quantitySpaghettiCarbonara = RecipeQuantity(11, 2, "mass", 200F)
+            val quantityEggYolksCarbonara = RecipeQuantity(12, 2, "int", 2F)
+            val quantityCreamCarbonara = RecipeQuantity(13, 2, "volume", 15F)
+            val quantitySaltCarbonara= RecipeQuantity(4, 2, "int", 1F)
 
             cccRepository.localDataSource.addRecipeQuantity(quantityDicedBaconCarbonara)
             cccRepository.localDataSource.addRecipeQuantity(quantityParmesanCarbonara)

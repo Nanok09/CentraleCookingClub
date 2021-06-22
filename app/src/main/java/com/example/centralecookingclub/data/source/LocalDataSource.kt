@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.room.Query
@@ -86,7 +87,10 @@ class LocalDataSource (
         listIngredient.forEach {
             val idCurrentIngredient = it.id
             val quantityOfIngredient = getQuantityOfIngredients(idCurrentIngredient)
-            val newQuantity = quantityOfIngredient.quantity * (newNbPeople / nbPeople)
+            Log.d("CCC",quantityOfIngredient.toString())
+            val ratioPeople = (newNbPeople*1F / nbPeople*1F)
+            val newQuantity = quantityOfIngredient.quantity * (ratioPeople)
+            Log.d("CCC",newQuantity.toString())
             val newRecipeQuantity = RecipeQuantity(it.id, idRecipe, quantityOfIngredient.unit, newQuantity)
             // y'aura ptet une erreur ici car c'est pas un entier newQuantity
             newListQuantities.add(newRecipeQuantity)
