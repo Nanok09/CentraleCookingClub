@@ -16,7 +16,8 @@ import com.example.centralecookingclub.data.source.database.dao.*
         Ingredient::class,
         Recipe::class,
         RecipeQuantity::class,
-        Step::class
+        Step::class,
+        ShoppingListItem::class
     ],
     version = 1
 )

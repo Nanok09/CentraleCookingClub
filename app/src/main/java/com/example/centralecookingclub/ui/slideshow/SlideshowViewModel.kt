@@ -7,20 +7,27 @@ import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
+import com.example.centralecookingclub.data.model.ShoppingListItem
+import com.example.centralecookingclub.ui.gallery.GalleryViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class SlideshowViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is slideshow Fragment"
-    }
-    val text: LiveData<String> = _text
-
+    var shoppingList = MutableLiveData<MutableList<ShoppingListItem>>()
     private val cccRepository by lazy { CCCRepository.newInstance(application)}
 
 
-    // En vrai, on devrait pas mettre ça dans slideshowViewModel(ça a pas grand chose à voir avec le slideshow)
+
+
+    /*private val _text = MutableLiveData<String>().apply {
+         value = "This is slideshow Fragment"
+     }
+     val text: LiveData<String> = _text*/
+
+    /*// En vrai, on devrait pas mettre ça dans slideshowViewModel(ça a pas grand chose à voir avec le slideshow)
     // Permet l'ajout des ingrédients dans la DB
     val ingredients = MutableLiveData<ViewState>()
 
@@ -68,15 +75,56 @@ class SlideshowViewModel(application: Application) : AndroidViewModel(applicatio
         object Loading : ViewState()
         data class Content(val ingredients: MutableList<Ingredient>) : ViewState()
         data class Error(val message: String) : ViewState()
+    }*/
+
+
+
+
+
+
+
+
+
+
+    suspend fun getShoppingListItems(){
+        try {
+            val items = cccRepository.localDataSource.getAllShoppingListItems()
+            withContext(Dispatchers.Main)
+            {
+                shoppingList.value = items
+            }
+        } catch (e: Exception){
+            Log.d("CCC",e.toString())
+        }
     }
 
+    fun addItem(item: ShoppingListItem) {
+        shoppingList.value?.add(item)
+        viewModelScope.launch {
+            try {
+                cccRepository.localDataSource.addShoppingListItem(item)
+            } catch (e: Exception) {
+                Log.d("CCC",e.toString())
+            }
+        }
+    }
 
+    fun deleteItem(item: ShoppingListItem) {
+        shoppingList.value?.remove(item)
+        viewModelScope.launch {
+            try {
+                cccRepository.localDataSource.deleteShoppingListItem(item)
+            } catch (e: Exception) {
+                Log.d("CCC",e.toString())
+            }
+        }
+    }
 
+    suspend fun getLastIdItem(): Int {
+        return cccRepository.localDataSource.getLastIdItem()
+    }
 
-
-
-
-
-
-
+    suspend fun changeBought(item: ShoppingListItem) {
+        return cccRepository.localDataSource.changeBought(item)
+    }
 }

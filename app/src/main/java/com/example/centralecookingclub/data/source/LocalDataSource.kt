@@ -61,6 +61,11 @@ class LocalDataSource (
         .addShoppingListItem(shoppingListItem)
     suspend fun deleteShoppingListItem(shoppingListItem: ShoppingListItem) = shoppingListItemDao
         .deleteShoppingListItem(shoppingListItem)
+    suspend fun getLastIdItem(): Int {
+        var id = shoppingListItemDao.getLastIdItem()
+        if (id == null) return 0
+        else return id
+    }
     //////////////////////////////////////
     // Récupération de données précises //
     //////////////////////////////////////

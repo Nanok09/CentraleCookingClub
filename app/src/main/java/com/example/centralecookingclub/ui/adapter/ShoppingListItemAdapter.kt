@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -28,15 +29,17 @@ class ShoppingListItemAdapter(private val shoppingList: List<ShoppingListItem>, 
 
     inner class ShoppingListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val checkBoxView: CheckBox = itemView.findViewById(R.id.boughtCheckBox)
+        val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
         val textView: TextView = itemView.findViewById(R.id.shoppingListItemName)
-
 
         init {
             itemView.setOnClickListener(this)
+            checkBoxView.setOnClickListener(this)
+            deleteButton.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
-            Log.i("Test", "Test")
+            //Log.i("Test", "Test")
             val position = absoluteAdapterPosition
             if (position != RecyclerView.NO_POSITION) {
                 actionListener.onItemClick(v!!, position)
