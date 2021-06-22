@@ -1,5 +1,6 @@
 package com.example.centralecookingclub
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -36,8 +37,10 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.appBarMain.toolbar)
 
         binding.appBarMain.fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            val intent : Intent
+            intent = Intent(this, TimerActivity::class.java)
+            startActivity(intent)
+
         }
         val drawerLayout: DrawerLayout = binding.drawerLayout
         val navView: NavigationView = binding.navView
@@ -57,6 +60,8 @@ class MainActivity : AppCompatActivity() {
         activityScope.launch {
             databaseInitializer.initializeAllTables()
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -68,5 +73,11 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+
     }
 }
