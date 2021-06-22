@@ -1,30 +1,24 @@
 package com.example.centralecookingclub.ui.slideshow
 
-import android.app.Application
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.centralecookingclub.MainActivity
 import com.example.centralecookingclub.R
-import com.example.centralecookingclub.data.CCCRepository
-import com.example.centralecookingclub.data.model.Ingredient
-import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.data.model.ShoppingListItem
-import com.example.centralecookingclub.data.source.database.dao.ShoppingListItemDao
 import com.example.centralecookingclub.databinding.FragmentSlideshowBinding
-import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
 import com.example.centralecookingclub.ui.adapter.ShoppingListItemAdapter
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
+import java.lang.Runnable
+
 
 class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
     View.OnClickListener {
@@ -64,8 +58,8 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
         addButton.setOnClickListener(this)
         newItemName = binding.newItemNameEditText
 
-        //Pour tester
-        _shoppingList = mutableListOf(ShoppingListItem(-1, "Chargement en cours", 0))
+        //
+        _shoppingList = mutableListOf(ShoppingListItem(-1, "Chargement des données", 0))
         fragmentScope.launch {
             slideshowViewModel.getShoppingListItems()
         }
@@ -74,15 +68,6 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
         recyclerView.layoutManager = LinearLayoutManager(activity)
         shoppingListAdapter = ShoppingListItemAdapter(_shoppingList, this)
         recyclerView.adapter = shoppingListAdapter
-
-        slideshowViewModel.shoppingList.observe(viewLifecycleOwner, Observer { shoppingList ->
-            _shoppingList.clear()
-            _shoppingList.addAll(shoppingList)
-            Log.i("Test", "Oui")
-            shoppingListAdapter.notifyDataSetChanged()
-        })
-
-
 
 
 //        val textView: TextView = binding.textSlideshow
@@ -116,6 +101,17 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
         return root
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        slideshowViewModel.shoppingList.observe(viewLifecycleOwner, Observer { shoppingList ->
+            Log.i("Test", "observing")
+            _shoppingList.clear()
+            _shoppingList.addAll(shoppingList)
+            shoppingListAdapter.notifyDataSetChanged()
+        })
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -172,12 +168,12 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
     override fun onItemClick(view: View, position: Int) {
         Log.i("ShoppingListTest", "un item a été cliqué")
         val item = slideshowViewModel.shoppingList.value!!.get(position)
+
         fragmentScope.launch {
             when (view.id) {
                 R.id.boughtCheckBox -> {
                     Log.i("ShoppingListTest", "bought checkbox")
                     slideshowViewModel.changeBought(item)
-
                 }
                 R.id.deleteButton -> {
                     Log.i("ShoppingListTest", "delete button")
@@ -193,7 +189,7 @@ class SlideshowFragment() : Fragment(), ShoppingListItemAdapter.ActionListener,
         Log.i("ShoppingListTest", "ajouter item à shopping list")
         val name = newItemName.text.toString()
 
-        if (name != null) {
+        if (name != "") {
             fragmentScope.launch {
                 val idItem = slideshowViewModel.getLastIdItem() + 1
                 val bought = 0
