@@ -45,6 +45,7 @@ class LocalDataSource (
 
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
+    suspend fun getAllRecipesByName(name : String) = recipeDao.getAllRecipesByName(name)
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
     suspend fun addRecipe(reciepe: Recipe) = recipeDao.addRecipe(reciepe)
 
@@ -83,6 +84,11 @@ class LocalDataSource (
         }
 
         return newListQuantities
+    }
+
+    suspend fun getAllRecipeNames(): Array<String> {
+        val listOfRecipes = getAllRecipes()
+        return Array(listOfRecipes.size) { i -> listOfRecipes[i].name }
     }
 
 

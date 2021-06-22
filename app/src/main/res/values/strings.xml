@@ -11,4 +11,6 @@
     <string name="menu_gallery">Ajout Recette</string>
     <string name="menu_slideshow">Liste de Course</string>
     <string name="create_toast">Create Toast</string>
+    <string name="research">Faites une recherche</string>
+    <string name="btnResearchText">OK</string>
 </resources>
