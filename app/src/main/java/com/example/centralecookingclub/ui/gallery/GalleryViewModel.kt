@@ -8,7 +8,9 @@ import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.data.model.Step
 import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
+import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class GalleryViewModel(application: Application) : AndroidViewModel(application) {
@@ -17,7 +19,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         value = "This is gallery Fragment"
     }
     var editRecipeList = MutableLiveData<MutableList<EditRecipe>>().apply {
-        value = mutableListOf<EditRecipe>(EditRecipe(1))
+        value = mutableListOf<EditRecipe>()
     }
     val text: LiveData<String> = _text
 
@@ -54,6 +56,15 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         val temp = mutableListOf<EditRecipe>()
         temp.addAll(editRecipeList.value!!)
         temp.add(EditRecipe(0))
+        editRecipeList.value=temp
+    }
+    fun addEditIng(ingredient: Ingredient)
+    {
+        val temp = mutableListOf<EditRecipe>()
+        temp.addAll(editRecipeList.value!!)
+        val myNewEditRecipe = EditRecipe(1)
+        myNewEditRecipe.ingredient=ingredient
+        temp.add(0,myNewEditRecipe)
         editRecipeList.value=temp
     }
 
@@ -93,6 +104,8 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
     suspend fun initializeListOfIngredients() : List<Ingredient> {
         return cccRepository.localDataSource.getAllIngredients()
     }
+
+
 
     sealed class ViewState{
         object Loading : ViewState()

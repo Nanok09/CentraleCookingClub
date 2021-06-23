@@ -1,20 +1,29 @@
 package com.example.centralecookingclub.ui.adapter
 
 import android.media.Image
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
 import com.example.centralecookingclub.data.model.Ingredient
+import java.lang.Exception
 
 class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeList : List<EditRecipe>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var editRecipeList : List<EditRecipe>
+    lateinit var descriptionList : MutableList<String>
+    lateinit var quantityList : MutableList<String>
     init {
          editRecipeList = _editRecipeList
+        descriptionList = mutableListOf()
+        quantityList = mutableListOf()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, type: Int): RecyclerView.ViewHolder {
@@ -23,22 +32,16 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
             val view = LayoutInflater.from(parent.context).inflate(R.layout.edit_recipe,parent,false)
             return EditRecipeViewHolder(view)
         }
-        if(type==1)
-        {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.image_of_recipe,parent,false)
-            return ImageRecipeViewHolder(view)
-        }
         else
         {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_add_ingredient,parent,false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.ingredient,parent,false)
             return EditIngViewHolder(view)
         }
 
     }
     override fun getItemViewType(position: Int): Int {
         if(editRecipeList[position].type==0) return 0
-        if(editRecipeList[position].type==1) return 1
-        else return 2
+        else return 1
     }
 
     override fun getItemCount(): Int {
@@ -49,7 +52,10 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         when(holder)
         {
             is EditRecipeViewHolder ->{
-                holder.bind(editRecipeList.get(position),position)
+                holder.bind(position)
+            }
+            is EditIngViewHolder ->{
+                holder.bind(editRecipeList.get(position).ingredient,position)
             }
         }
     }
@@ -59,27 +65,53 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
 
     inner class EditRecipeViewHolder constructor(editRecipe : View): RecyclerView.ViewHolder(editRecipe){
         private val numOfStepTV : TextView = editRecipe.findViewById(R.id.numEtape)
+        private val descriptionEditText : EditText = editRecipe.findViewById(R.id.description)
+        lateinit var myCustomEditTextListener : MyCustomEditTextListener
+        init {
+            myCustomEditTextListener=MyCustomEditTextListener()
+            descriptionEditText.addTextChangedListener(myCustomEditTextListener)
+        }
 
-        fun bind(editRecipe: EditRecipe,position: Int){
-            numOfStepTV.text= (position+1).toString()
+        fun bind(position: Int){
+            Log.d("CCC",(quantityList.size).toString())
+            Log.d("CCC","test2")
+            Log.d("CCC",position.toString())
+            numOfStepTV.text= (position+1-quantityList.size).toString()
+            myCustomEditTextListener.updatePosition(bindingAdapterPosition)
+            descriptionEditText.setText(descriptionList[bindingAdapterPosition-quantityList.size])
         }
     }
     inner class EditIngViewHolder constructor(editIng : View): RecyclerView.ViewHolder(editIng){
-        fun bind(editIng: EditRecipe,position: Int){
-
+        private val ingredientNametextView : TextView = editIng.findViewById(R.id.ingredientName)
+        private val quantityIngredienttextView : TextView = editIng.findViewById(R.id.quantityIngredient)
+        fun bind(editIng: Ingredient,position: Int){
+            ingredientNametextView.text=editIng.name
+            quantityIngredienttextView.text=quantityList[position]
         }
     }
-    inner class ImageRecipeViewHolder constructor(image : View): RecyclerView.ViewHolder(image){
+    inner class MyCustomEditTextListener : TextWatcher {
+        private var position = 0
+        fun updatePosition(position: Int) {
+            this.position = position
+        }
 
-        init {
-            itemView.setOnClickListener{
-                val itemPosition = bindingAdapterPosition
-                if (itemPosition != RecyclerView.NO_POSITION) {
-                    val clickedItem = editRecipeList[itemPosition]
-                    val imageview = image.findViewById<ImageView>(R.id.imageofRecipe)
-                    actionListener.onItemClicked(itemPosition,imageview)
-                }
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {
+            // no op
+        }
+
+        override fun onTextChanged(charSequence: CharSequence, i: Int, i2: Int, i3: Int) {
+            val temp = charSequence
+            try {
+                descriptionList[position-quantityList.size]=temp.toString()
             }
+            catch (e: Exception)
+            {
+                Log.d("CCC",e.toString())
+            }
+        }
+
+        override fun afterTextChanged(editable: Editable) {
+            // no op
         }
     }
     interface ActionListener {

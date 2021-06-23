@@ -4,11 +4,9 @@ package com.example.centralecookingclub.data.model
 
 class EditRecipe(_type :Int)
 {
-    lateinit var step : Step
+    //lateinit var step : Step
     lateinit var ingredient : Ingredient
     var type : Int = _type
     //0:step
-    //1:image
-    //2: ingrédient
-
+    //1:ingrédient
 }

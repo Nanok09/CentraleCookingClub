@@ -53,10 +53,10 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     lateinit var editRecipeAdapter : EditRecipeRecyclerAdapter
     lateinit var recyclerView : RecyclerView
     lateinit var _editRecipeList : MutableList<EditRecipe>
-    lateinit var addImg: ImageView
+    private var addImg: ImageView?=null
     lateinit var addStepBtn : ImageView
     lateinit var btnvalidate : Button
-    lateinit var btnAddIng : Button
+    lateinit var btnAddIng : ImageView
     lateinit var recipeName: EditText
     private val fragmentScope = CoroutineScope(Dispatchers.IO)
     private lateinit var dialogBox : Dialog
@@ -83,20 +83,24 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
 
 
-        //UI Components
-        btnvalidate= binding.btnValidateRecipe
-        addStepBtn=binding.addStepBtn
-        recipeName = binding.ETname
-        btnAddIng = binding.btnaddIng
+
 
         val root: View = binding.root
         return root
     }
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        //UI Components
+        btnvalidate= binding.btnValidateRecipe
+        addStepBtn=binding.addStepBtn
+        recipeName = binding.ETname
+        btnAddIng = binding.btnaddIng
+        addImg=binding.imageofRecipe
+
         //OnClickListeners
         addStepBtn.setOnClickListener(this)
         btnvalidate.setOnClickListener(this)
+        addImg?.setOnClickListener(this)
 
         fragmentScope.launch {
             val list = galleryViewModel.initializeListOfIngredients()
@@ -107,7 +111,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
             }
         }
         galleryViewModel.editRecipeList.observe(viewLifecycleOwner, Observer { editRecipeList ->
-            Log.d("CCC","observe")
+            Log.d("CCC","observeEditRecipeList")
             _editRecipeList.clear()
             _editRecipeList.addAll(editRecipeList)
             editRecipeAdapter.notifyDataSetChanged()})
@@ -118,9 +122,6 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         recyclerView.layoutManager= LinearLayoutManager(this.activity)
         editRecipeAdapter = EditRecipeRecyclerAdapter(this,_editRecipeList)
         recyclerView.adapter = editRecipeAdapter
-        var context = context
-
-
 
         galleryViewModel.steps.observe(viewLifecycleOwner) {
                 viewState ->
@@ -168,15 +169,15 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     override fun onActivityResult(requestCode: Int, resultCode: Int, intent: Intent?) {
         super.onActivityResult(requestCode, resultCode, intent)
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE) {
-            addImg.setImageURI(intent?.data)
+            addImg?.setImageURI(intent?.data)
         }
     }
 
-
+/*
     private fun addStep(){
 
         //We get the image from the hidden image view created by openGalleryForImage()
-        var img = (addImg.drawable as BitmapDrawable).bitmap
+        var img = (addImg?.drawable as BitmapDrawable).bitmap
 
         /*TODO() //get stepNumber, description, description short from ui and create Step object
         var step = Step(1, 1, "jojo", "koko", "", img)
@@ -185,7 +186,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         galleryViewModel.addStep(step)*/
 
     }
-
+*/
     override fun onClick(v: View?) {
         when(v?.id)
         {
@@ -193,14 +194,26 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                 galleryViewModel.editRecipeList.value?.forEach {
                     Log.d("CCC", it.toString())
                 }
+                editRecipeAdapter.descriptionList.add("")
                 galleryViewModel.addEditRecipe()
             }
             R.id.btnValidateRecipe->{
                 fragmentScope.launch {
-                    var addImgBitmap = (addImg.drawable as BitmapDrawable).bitmap
+                    val addImgBitmap = (addImg?.drawable as BitmapDrawable).bitmap
                     val recipeId = galleryViewModel.getLastId()+1
                     val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4)
                     val recipeSteps = mutableListOf<Step>()
+                    editRecipeAdapter.descriptionList.forEachIndexed() {index,element->
+                        Log.d("CCC",index.toString())
+                        Log.d("CCC",element)
+                        recipeSteps.add(Step(recipeId,
+                            index+1,
+                            element,
+                            element,
+                            "test",
+                            addImgBitmap))
+                    }
+                    /*
                     _editRecipeList.forEachIndexed{
                             index,element ->val view = recyclerView.layoutManager?.findViewByPosition(index)
                         if(element.type==0)
@@ -214,7 +227,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                                 "test",
                                 addImgBitmap))
                         }
-                    }
+                    }*/
                     galleryViewModel.saveSteps(recipeSteps)
                     galleryViewModel.saveRecipeToDatabase(recipe)
                 }
@@ -225,14 +238,32 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                     this.dialogBox = Dialog(this.requireContext())
                     this.dialogBox.setContentView(R.layout.dialogbox)
                     recyclerDialog = dialogBox.findViewById(R.id.dialog_recycler_view)
+                    val btnValidateIng=dialogBox.findViewById<Button>(R.id.validateIng)
                     recyclerDialog.layoutManager=LinearLayoutManager(this.requireContext())
                     recyclerDialog.adapter=dialogAdapter
+
+
+                    btnValidateIng.setOnClickListener {
+
+                        //pour chaque ingrédient avec une quantité non nulle, on l'ajoute a la liste en premiere position
+                        dialogAdapter.arrQuantity.forEachIndexed() {index,element->
+                            if(element != 0f)
+                            {
+                                editRecipeAdapter.quantityList.add(0,dialogAdapter.arrQuantity[index].toString())
+                                galleryViewModel.addEditIng(dialogAdapter.listAddIng[index])
+                            }
+                        }
+                        dialogBox.dismiss()
+                    }
                     dialogBox.show()
                 }
                 catch (e : Exception)
                 {
                     Log.d("CCC","no Context")
                 }
+            }
+            R.id.imageofRecipe->{
+                openGalleryForImage()
             }
         }
     }
