@@ -15,6 +15,7 @@ import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.EditRecipe
 import com.example.centralecookingclub.data.model.Ingredient
 import java.lang.Exception
+import kotlin.math.floor
 
 class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeList : List<EditRecipe>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     lateinit var editRecipeList : List<EditRecipe>
@@ -73,9 +74,6 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
         }
 
         fun bind(position: Int){
-            Log.d("CCC",(quantityList.size).toString())
-            Log.d("CCC","test2")
-            Log.d("CCC",position.toString())
             numOfStepTV.text= (position+1-quantityList.size).toString()
             myCustomEditTextListener.updatePosition(bindingAdapterPosition)
             descriptionEditText.setText(descriptionList[bindingAdapterPosition-quantityList.size])
@@ -84,9 +82,20 @@ class EditRecipeRecyclerAdapter(val actionListener: ActionListener, _editRecipeL
     inner class EditIngViewHolder constructor(editIng : View): RecyclerView.ViewHolder(editIng){
         private val ingredientNametextView : TextView = editIng.findViewById(R.id.ingredientName)
         private val quantityIngredienttextView : TextView = editIng.findViewById(R.id.quantityIngredient)
+        private val unitTextView : TextView = editIng.findViewById(R.id.unitIngredient)
         fun bind(editIng: Ingredient,position: Int){
+            val num = quantityList[position].toFloat()
+            if(floor(num)==num)
+            {
+                quantityIngredienttextView.text=num.toInt().toString()
+            }
+            else
+            {
+                quantityIngredienttextView.text=num.toString()
+            }
             ingredientNametextView.text=editIng.name
-            quantityIngredienttextView.text=quantityList[position]
+
+            unitTextView.text=editIng.unit
         }
     }
     inner class MyCustomEditTextListener : TextWatcher {

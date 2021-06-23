@@ -44,6 +44,7 @@
     </androidx.cardview.widget.CardView>
 
     <ImageView
+        android:layout_marginStart="15dp"
         android:src="@drawable/ic_baseline_group_24"
         android:id="@+id/ic_nb_personnes_detailled_recipe"
         android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="25dp"/>
+        android:layout_marginStart="40dp"/>
+
 
     <TextView
         android:id="@+id/nbPersonneOfRecipe"
@@ -74,7 +76,7 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="70dp"/>
+        android:layout_marginStart="85dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingAndStepRecyclerView"

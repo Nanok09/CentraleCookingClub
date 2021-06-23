@@ -26,7 +26,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:backgroundTint="#fec5d9"
+        android:backgroundTint="#DB7093"
         android:fontFamily="casual"
         android:id="@+id/btnResearch"
         android:layout_width="wrap_content"

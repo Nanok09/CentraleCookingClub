@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.CentraleCookingClub" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#fec5d9</item>
-        <item name="colorPrimaryVariant">#fec5d9</item>
+        <item name="colorPrimary"> 	#DB7093</item>
+        <item name="colorPrimaryVariant"> #DB7093</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#fec5d9</item>

@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_marginTop="15dp"
         android:id="@+id/card_view"
-        android:layout_width="200dp"
+        android:layout_width="match_parent"
         android:layout_height="35dp"
         android:layout_gravity="center"
         app:cardCornerRadius="5dp"
@@ -17,20 +17,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         card_view:cardCornerRadius="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp">
 
         <TextView
             android:fontFamily="casual"
             android:id="@+id/ingredientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="90dp" />
 
         <TextView
+            android:layout_marginStart="15dp"
             android:fontFamily="casual"
             android:id="@+id/quantityIngredient"
-            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_marginStart="50dp"
+            android:fontFamily="casual"
+            android:id="@+id/unitIngredient"
             android:layout_width="wrap_content"
             android:layout_height="match_parent" />
 

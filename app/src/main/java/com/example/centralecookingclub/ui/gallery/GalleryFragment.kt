@@ -58,6 +58,8 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
     lateinit var btnvalidate : Button
     lateinit var btnAddIng : ImageView
     lateinit var recipeName: EditText
+    lateinit var recipenbpeople : EditText
+    lateinit var  recipeTime : EditText
     private val fragmentScope = CoroutineScope(Dispatchers.IO)
     private lateinit var dialogBox : Dialog
     private lateinit var dialogAdapter : AddIngAdapter
@@ -94,6 +96,8 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
         btnvalidate= binding.btnValidateRecipe
         addStepBtn=binding.addStepBtn
         recipeName = binding.ETname
+        recipeTime = binding.EDTime
+        recipenbpeople = binding.EDnbPeople
         btnAddIng = binding.btnaddIng
         addImg=binding.imageofRecipe
 
@@ -201,7 +205,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                 fragmentScope.launch {
                     val addImgBitmap = (addImg?.drawable as BitmapDrawable).bitmap
                     val recipeId = galleryViewModel.getLastId()+1
-                    val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4, "Matyas")
+                    val recipe = Recipe(recipeId, recipeName.text.toString(),recipeTime.text.toString().toInt(), addImgBitmap, recipenbpeople.text.toString().toInt(), "Matyas")
                     val recipeSteps = mutableListOf<Step>()
                     editRecipeAdapter.descriptionList.forEachIndexed() {index,element->
                         Log.d("CCC",index.toString())
