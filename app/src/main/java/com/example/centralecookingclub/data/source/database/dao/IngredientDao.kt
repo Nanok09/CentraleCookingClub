@@ -9,10 +9,10 @@ import com.example.centralecookingclub.data.model.Ingredient
 @Dao
 interface IngredientDao {
 
-    @Query("SELECT * FROM INGREDIENT_TABLE")
+    @Query("SELECT * FROM INGREDIENT_TABLE ORDER BY name ASC")
     suspend fun getAllIngredients(): MutableList<Ingredient>
 
-    @Query("SELECT * FROM INGREDIENT_TABLE WHERE id=:id")
+    @Query("SELECT * FROM INGREDIENT_TABLE WHERE id=:id ORDER BY name ASC")
     suspend fun getIngredient(id: Int): Ingredient
 
     @Query(

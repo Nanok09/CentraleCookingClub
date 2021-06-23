@@ -11,17 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/acResearch"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="-72dp" />
+        app:layout_constraintTop_toBottomOf="@+id/swFaved"
+        tools:layout_editor_absoluteX="-88dp" />
 
     <AutoCompleteTextView
         android:id="@+id/acResearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:fontFamily="casual"
         android:hint="@string/research"
         android:inputType="text"
@@ -33,13 +29,19 @@
         android:id="@+id/btnResearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:backgroundTint="#DB7093"
         android:fontFamily="casual"
         android:text="@string/btnResearchText"
-        app:layout_constraintBottom_toTopOf="@+id/itemRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Switch
+        android:fontFamily="casual"
+        android:id="@+id/swFaved"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Afficher les favoris"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/acResearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

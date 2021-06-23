@@ -4,6 +4,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -35,6 +36,7 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
         private val timeTextView : TextView = recette.findViewById(R.id.time)
         private val nbPersonnesTextView : TextView = recette.findViewById(R.id.nombrePersonnes)
         private val recipeImg: ImageView = recette.findViewById(R.id.imageRecipe)
+        private val ic_favori:CheckBox = recette.findViewById((R.id.ic_favori))
 
         init {
             itemView.setOnClickListener{
@@ -50,6 +52,7 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
             timeTextView.text = recette.time.toString()
             nbPersonnesTextView.text=recette.numberOfPeople.toString()
             recipeImg.setImageBitmap(recette.recipeImage)
+            ic_favori.isChecked = recette.faved==1
         }
     }
     interface ActionListener {

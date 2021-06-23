@@ -8,9 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
-import android.widget.Button
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -26,7 +24,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClickListener {
+class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClickListener,
+    CompoundButton.OnCheckedChangeListener{
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
@@ -35,6 +34,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
     lateinit var _recettes : MutableList<Recipe>
     lateinit var acResearch : AutoCompleteTextView
     lateinit var btnResearch : Button
+    lateinit var swFaved : Switch
 
 
     // This property is only valid between onCreateView and
@@ -80,6 +80,9 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
         btnResearch = binding!!.btnResearch
         btnResearch.setOnClickListener(this)
 
+        swFaved = binding!!.swFaved
+        swFaved.setOnCheckedChangeListener(this)
+
         fragmentScope.launch {
             homeViewModel.getRecipes()
             homeViewModel.setAutocompleteTextView(acResearch)
@@ -104,9 +107,23 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
             R.id.btnResearch -> {
                 fragmentScope.launch {
                     val recipeNameReasearched = acResearch.text.toString()
-                    homeViewModel.getRecipesByName(recipeNameReasearched)
+                    homeViewModel.research(recipeNameReasearched, swFaved)
                 }
             }
         }
+    }
+
+    override fun onCheckedChanged(buttonView: CompoundButton, isChecked: Boolean) {
+
+        val fragmentScope = CoroutineScope(Dispatchers.IO)
+        when(buttonView.id){
+            R.id.swFaved -> {
+                fragmentScope.launch {
+                    val recipeNameReasearched = acResearch.text.toString()
+                    homeViewModel.research(recipeNameReasearched, swFaved)
+                }
+            }
+        }
+
     }
 }
