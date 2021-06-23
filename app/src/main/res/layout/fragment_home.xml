@@ -16,6 +16,7 @@
         tools:layout_editor_absoluteX="-72dp" />
 
     <AutoCompleteTextView
+        android:fontFamily="casual"
         android:id="@+id/acResearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

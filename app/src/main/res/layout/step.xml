@@ -21,6 +21,7 @@
         card_view:cardCornerRadius="20dp">
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/stepTV"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
@@ -30,6 +31,7 @@
             android:layout_marginLeft="4dp"/>
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/descriptionStep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

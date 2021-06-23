@@ -17,6 +17,7 @@
         ?>
 
     <EditText
+        android:fontFamily="casual"
         android:id="@+id/newItemNameEditText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
