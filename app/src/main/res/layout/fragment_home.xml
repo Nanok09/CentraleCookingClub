@@ -20,6 +20,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="casual"
         android:hint="@string/research"
+        android:inputType="text"
         app:layout_constraintEnd_toStartOf="@+id/btnResearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

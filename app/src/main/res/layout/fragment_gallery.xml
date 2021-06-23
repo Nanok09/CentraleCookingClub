@@ -124,7 +124,7 @@
         android:layout_marginBottom="45dp"/>
 
     <Button
-        android:backgroundTint=" 	#DB7093"
+        android:backgroundTint="#DB7093"
         android:fontFamily="casual"
         android:id="@+id/btnValidateRecipe"
         android:layout_width="wrap_content"
