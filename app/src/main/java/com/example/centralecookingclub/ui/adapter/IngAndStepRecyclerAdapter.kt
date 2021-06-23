@@ -7,10 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.Ingredient
+import com.example.centralecookingclub.data.model.RecipeQuantity
 import com.example.centralecookingclub.data.model.Step
+import kotlin.math.floor
 
-class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep : List<Any>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep : List<Any>,quantityRecipe : MutableList<RecipeQuantity>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
     var ingsAndSteps : List<Any> = _ingAndStep
+    var quantity : MutableList<RecipeQuantity> = quantityRecipe
 
     override fun getItemViewType(position: Int): Int {
         if(ingsAndSteps[position] is Ingredient) return 0
@@ -52,8 +55,23 @@ class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep 
 
     inner class IngredientViewHolder constructor(ingredient : View): RecyclerView.ViewHolder(ingredient){
         private val nameTextView : TextView = ingredient.findViewById(R.id.ingredientName)
+        private val quantityTextView : TextView = ingredient.findViewById(R.id.quantityIngredient)
 
         fun bind(ingredient: Ingredient){
+            quantity.forEach {
+                if (it.idIngredient==ingredient.id)
+                {
+                    if(floor(it.quantity)==it.quantity)
+                    {
+                        val nb = it.quantity.toInt()
+                        quantityTextView.text=nb.toString()
+                    }
+                    else
+                    {
+                        quantityTextView.text=it.quantity.toString()
+                    }
+                }
+            }
             nameTextView.text = ingredient.name
         }
     }

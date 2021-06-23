@@ -25,7 +25,7 @@
         android:layout_marginBottom="8dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:hint="Elément à ajouter à votre liste"
+        android:hint="Nouvel élément"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/addButton"
         app:layout_constraintStart_toStartOf="parent" />

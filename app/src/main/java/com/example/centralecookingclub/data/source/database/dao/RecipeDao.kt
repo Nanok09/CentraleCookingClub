@@ -1,9 +1,6 @@
 package com.example.centralecookingclub.data.source.database.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.room.*
 import com.example.centralecookingclub.data.model.Ingredient
 import com.example.centralecookingclub.data.model.Recipe
 
@@ -19,8 +16,15 @@ interface RecipeDao {
     @Query("SELECT * FROM RECIPE_TABLE WHERE id=:id")
     suspend fun getRecipe(id: Int): Recipe
 
+    @Query("UPDATE RECIPE_TABLE SET faved = :value WHERE id=:idRecipe")
+    suspend fun changeFaved(idRecipe: Int, value: Int)
+
+    @Query("SELECT * FROM RECIPE_TABLE WHERE name LIKE '%'+:name+'%' ")
+    suspend fun searchRecipe(name:String): Recipe
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipe(recipe: Recipe)
+
 
 
 }

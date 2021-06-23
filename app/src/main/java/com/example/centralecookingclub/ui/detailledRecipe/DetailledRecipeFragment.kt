@@ -1,6 +1,7 @@
 package com.example.centralecookingclub.ui.detailledRecipe
 
 import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -15,11 +16,8 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.MainActivity
-import com.example.centralecookingclub.R
 import com.example.centralecookingclub.SuiviRecette
-import com.example.centralecookingclub.data.model.EditRecipe
-import com.example.centralecookingclub.data.model.Ingredient
-import com.example.centralecookingclub.data.model.Step
+import com.example.centralecookingclub.data.model.*
 import com.example.centralecookingclub.databinding.FragmentDetailledRecipeBinding
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
 import com.example.centralecookingclub.ui.adapter.IngAndStepRecyclerAdapter
@@ -36,16 +34,22 @@ import kotlinx.coroutines.withContext
 class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionListener, View.OnClickListener,
     OnDSListener, OnDSPermissionsListener {
 
+
     private val args : DetailledRecipeFragmentArgs by navArgs()
     private lateinit var detailledRecipeViewModel: DetailledRecipeViewModel
     private var _binding: FragmentDetailledRecipeBinding? = null
     private lateinit var titleTextView : TextView
+    private lateinit var nbPersonneTextView : TextView
     private lateinit var image :ImageView
     lateinit var ingAndStepAdapter : IngAndStepRecyclerAdapter
     lateinit var recyclerView : RecyclerView
     lateinit var listOfIngredient : MutableList<Ingredient>
+    lateinit var quantityRecipe : MutableList<RecipeQuantity>
     lateinit var listofStep : MutableList<Step>
     lateinit var listIngAndStep : MutableList<Any>
+    lateinit var icPlus : ImageView
+    lateinit var icMinus : ImageView
+    private val fragmentScope = CoroutineScope(Dispatchers.IO)
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -78,16 +82,19 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        val fragmentScope = CoroutineScope(Dispatchers.IO)
-        titleTextView = _binding!!.titleDetailledRecipe
+        titleTextView = binding.titleDetailledRecipe
+        nbPersonneTextView = binding.nbPersonneOfRecipe
+        quantityRecipe = mutableListOf()
         listOfIngredient = mutableListOf()
         listofStep= mutableListOf()
         listIngAndStep = mutableListOf()
         recyclerView = _binding!!.ingAndStepRecyclerView
         recyclerView.layoutManager= LinearLayoutManager(this.activity)
-        ingAndStepAdapter = IngAndStepRecyclerAdapter(this,listIngAndStep)
+        ingAndStepAdapter = IngAndStepRecyclerAdapter(this,listIngAndStep,quantityRecipe)
         recyclerView.adapter = ingAndStepAdapter
         image=binding.imageDetailledRecipe
+        icMinus=binding.icMinus
+        icPlus=binding.icPlus
 
         binding.playButton.setOnClickListener {
                 /* view ->
@@ -106,12 +113,24 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
             listofStep.addAll(stepOfRecipe)
             UpdateRecycler()})
 
+        detailledRecipeViewModel.quantityOfRecipe.observe(viewLifecycleOwner, Observer { quantity ->
+            quantityRecipe.clear()
+            quantityRecipe.addAll(quantity)
+            UpdateRecycler()})
+
+        detailledRecipeViewModel.nbPersonne.observe(viewLifecycleOwner,Observer{
+            nbPersonne -> nbPersonneTextView.text = nbPersonne
+        })
+
         fragmentScope.launch {
             detailledRecipeViewModel.getRecipe(args.idRecipe)
             withContext(Main)
             {
                 image.setImageBitmap(detailledRecipeViewModel.recipe.value?.recipeImage)
                 titleTextView.text = detailledRecipeViewModel.title.value
+                nbPersonneTextView.text = detailledRecipeViewModel.nbPersonne.value
+                icPlus.setOnClickListener(this@DetailledRecipeFragment)
+                icMinus.setOnClickListener(this@DetailledRecipeFragment)
             }
         }
 
@@ -259,9 +278,28 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
                 detailledRecipeDroidSpeech!!.closeDroidSpeechOperations()
                 stopSpeechDetailledR!!.visibility = View.GONE
             }
+             R.id.ic_plus->{
+                var nb =detailledRecipeViewModel.nbPersonne.value?.toInt()
+                if(nb==null)nb=0
+                nb++
+                detailledRecipeViewModel.nbPersonne.value=nb.toString()
+                fragmentScope.launch {
+                    detailledRecipeViewModel.updateQuantity(nb!!)
+                }
+            }
+            R.id.ic_minus->{
+                var nb =detailledRecipeViewModel.nbPersonne.value?.toInt()
+                if(nb==null)nb=0
+                if(nb!=0)nb--
+                detailledRecipeViewModel.nbPersonne.value=nb.toString()
+                fragmentScope.launch {
+                    detailledRecipeViewModel.updateQuantity(nb)
+                }
+            }
         }
     }
     companion object {
         var stopSpeechDetailledR: Button? = null
     }
+
 }

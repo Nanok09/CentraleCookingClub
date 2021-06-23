@@ -54,9 +54,8 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val imgCrepe: Bitmap = BitmapFactory.decodeResource(activity?.resources, R.drawable.crepes)
-        _recettes= mutableListOf(Recipe(4,"test",45,imgCrepe,5))
-
+        
+        _recettes = mutableListOf()
         val fragmentScope = CoroutineScope(Dispatchers.IO)
         recyclerView = _binding!!.itemRecyclerView
         recyclerView.layoutManager= LinearLayoutManager(activity)
