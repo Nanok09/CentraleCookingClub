@@ -24,9 +24,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
-import com.example.centralecookingclub.data.model.EditRecipe
-import com.example.centralecookingclub.data.model.Recipe
-import com.example.centralecookingclub.data.model.Step
+import com.example.centralecookingclub.data.model.*
 import com.example.centralecookingclub.databinding.FragmentGalleryBinding
 import com.example.centralecookingclub.ui.adapter.AddIngAdapter
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
@@ -207,6 +205,20 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                     val recipeId = galleryViewModel.getLastId()+1
                     val recipe = Recipe(recipeId, recipeName.text.toString(),recipeTime.text.toString().toInt(), addImgBitmap, recipenbpeople.text.toString().toInt(), "Matyas")
                     val recipeSteps = mutableListOf<Step>()
+                    val recipeQuantities = mutableListOf<RecipeQuantity>()
+                        Log.d("EDPMR", editRecipeAdapter.editRecipeList.size.toString())
+                        val listSize = editRecipeAdapter.editRecipeList.size-1
+                        for (i in 0..listSize){
+                            Log.i("EDPMR", i.toString())
+                            val editRecipe = editRecipeAdapter.editRecipeList[i]
+
+                            if (editRecipe.type != 0){
+                            val quantity = editRecipeAdapter.quantityList[i]
+
+                                recipeQuantities.add(RecipeQuantity(editRecipe.ingredient.id, recipeId, "", quantity.toFloat()))
+                            }
+                    }
+
                     editRecipeAdapter.descriptionList.forEachIndexed() {index,element->
                         Log.d("CCC",index.toString())
                         Log.d("CCC",element)
@@ -232,6 +244,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                                 addImgBitmap))
                         }
                     }*/
+                    galleryViewModel.saveRecipeQuantities(recipeQuantities)
                     galleryViewModel.saveSteps(recipeSteps)
                     galleryViewModel.saveRecipeToDatabase(recipe)
                 }

@@ -16,21 +16,27 @@
         tools:layout_editor_absoluteX="-72dp" />
 
     <AutoCompleteTextView
-        android:fontFamily="casual"
         android:id="@+id/acResearch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="casual"
         android:hint="@string/research"
+        android:inputType="text"
         app:layout_constraintEnd_toStartOf="@+id/btnResearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:backgroundTint="#DB7093"
-        android:fontFamily="casual"
         android:id="@+id/btnResearch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#DB7093"
+        android:fontFamily="casual"
         android:text="@string/btnResearchText"
         app:layout_constraintBottom_toTopOf="@+id/itemRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"

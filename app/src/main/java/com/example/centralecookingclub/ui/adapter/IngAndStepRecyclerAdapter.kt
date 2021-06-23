@@ -1,5 +1,6 @@
 package com.example.centralecookingclub.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,7 @@ class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep 
                     }
                     else
                     {
-                        quantityTextView.text=it.quantity.toString()
+                        quantityTextView.text= String.format("%.1f",it.quantity)
                     }
                 }
             }

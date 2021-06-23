@@ -7,9 +7,9 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Recettes</string>
-    <string name="menu_gallery">Ajout Recette</string>
-    <string name="menu_slideshow">Liste de Course</string>
+    <string name="menu_home">Mes recettes</string>
+    <string name="menu_gallery">Ajouter une recette</string>
+    <string name="menu_slideshow">Ma liste de courses</string>
     <string name="create_toast">Create Toast</string>
     <string name="research">Faites une recherche</string>
     <string name="btnResearchText">OK</string>

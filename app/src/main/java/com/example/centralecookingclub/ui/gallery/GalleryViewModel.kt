@@ -3,14 +3,8 @@ package com.example.centralecookingclub.ui.gallery
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
-import com.example.centralecookingclub.data.model.EditRecipe
-import com.example.centralecookingclub.data.model.Ingredient
-import com.example.centralecookingclub.data.model.Recipe
-import com.example.centralecookingclub.data.model.Step
-import com.example.centralecookingclub.ui.slideshow.SlideshowViewModel
-import kotlinx.coroutines.Dispatchers.Main
+import com.example.centralecookingclub.data.model.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.lang.Exception
 
 class GalleryViewModel(application: Application) : AndroidViewModel(application) {
@@ -27,6 +21,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
 
     val steps = MutableLiveData<ViewState>()
     val recipe = MutableLiveData<ViewState>()
+    val recipe_quantities = MutableLiveData<ViewState>()
 
     fun addStep(step: Step){
         viewModelScope.launch {
@@ -97,6 +92,22 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         }
     }
 
+    suspend fun saveRecipeQuantities(recipQuantitiesToAdd: MutableList<RecipeQuantity>){
+        viewModelScope.launch {
+
+            recipe_quantities.value = ViewState.Loading
+            try {
+                recipe_quantities.value = ViewState.RecipeQuantityContent(recipQuantitiesToAdd)
+                recipQuantitiesToAdd.forEach {
+                    cccRepository.localDataSource.addRecipeQuantity(it)
+                }
+            } catch (e: Exception){
+                recipe_quantities.value = ViewState.Error(e.message.orEmpty())
+            }
+        }
+
+    }
+
     suspend fun getLastId(): Int {
         return cccRepository.localDataSource.getLastId()
     }
@@ -111,6 +122,7 @@ class GalleryViewModel(application: Application) : AndroidViewModel(application)
         object Loading : ViewState()
         data class Content(val steps: MutableList<Step>) : ViewState()
         data class RecipeContent(val recipe: Recipe) : ViewState()
+        data class RecipeQuantityContent(val recipe_quantities: MutableList<RecipeQuantity>): ViewState()
         data class Error(val message: String) : ViewState()
     }
 

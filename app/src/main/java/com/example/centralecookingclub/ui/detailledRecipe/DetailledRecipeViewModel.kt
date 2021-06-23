@@ -61,4 +61,9 @@ class DetailledRecipeViewModel(application: Application) : AndroidViewModel(appl
             quantityOfRecipe.value=cccRepository.localDataSource.scaleQuantitiesOfRecipe(recipe.value!!,nb)
         }
     }
+
+    suspend fun changeFaved(recipe: Recipe) {
+        cccRepository.localDataSource.changeFaved(recipe)
+        recipe.faved = 1-recipe.faved
+    }
 }

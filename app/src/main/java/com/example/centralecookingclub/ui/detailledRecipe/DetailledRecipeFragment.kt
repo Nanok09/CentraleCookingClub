@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -42,6 +43,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
     lateinit var listIngAndStep : MutableList<Any>
     lateinit var icPlus : ImageView
     lateinit var icMinus : ImageView
+    lateinit var favoriteCheckBox: CheckBox
     private val fragmentScope = CoroutineScope(Dispatchers.IO)
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -76,6 +78,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
         image=binding.imageDetailledRecipe
         icMinus=binding.icMinus
         icPlus=binding.icPlus
+        favoriteCheckBox=binding.favoriteCheckBox
 
         detailledRecipeViewModel.ingredientsOfTheRecipe.observe(viewLifecycleOwner, Observer { ingredientsOfTheRecipe ->
             listOfIngredient.clear()
@@ -105,6 +108,8 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
                 nbPersonneTextView.text = detailledRecipeViewModel.nbPersonne.value
                 icPlus.setOnClickListener(this@DetailledRecipeFragment)
                 icMinus.setOnClickListener(this@DetailledRecipeFragment)
+                favoriteCheckBox.setOnClickListener(this@DetailledRecipeFragment)
+                favoriteCheckBox.isChecked = detailledRecipeViewModel.recipe.value!!.faved == 1
             }
         }
     }
@@ -144,6 +149,12 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
                 detailledRecipeViewModel.nbPersonne.value=nb.toString()
                 fragmentScope.launch {
                     detailledRecipeViewModel.updateQuantity(nb)
+                }
+            }
+            R.id.favoriteCheckBox->{
+                fragmentScope.launch {
+                    val recipe = detailledRecipeViewModel.recipe.value!!
+                    detailledRecipeViewModel.changeFaved(recipe)
                 }
             }
         }

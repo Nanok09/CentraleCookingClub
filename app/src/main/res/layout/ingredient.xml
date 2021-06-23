@@ -20,25 +20,36 @@
         android:layout_marginStart="25dp"
         android:layout_marginEnd="25dp">
 
-        <TextView
-            android:fontFamily="casual"
-            android:id="@+id/ingredientName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="90dp" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:fontFamily="casual"
+                android:id="@+id/ingredientName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/unitIngredient"/>
 
-        <TextView
-            android:layout_marginStart="15dp"
-            android:fontFamily="casual"
-            android:id="@+id/quantityIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
-        <TextView
-            android:layout_marginStart="50dp"
-            android:fontFamily="casual"
-            android:id="@+id/unitIngredient"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            <TextView
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                android:fontFamily="casual"
+                android:id="@+id/quantityIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+            <TextView
+                app:layout_constraintTop_toTopOf="parent"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/quantityIngredient"
+                android:fontFamily="casual"
+                android:id="@+id/unitIngredient"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

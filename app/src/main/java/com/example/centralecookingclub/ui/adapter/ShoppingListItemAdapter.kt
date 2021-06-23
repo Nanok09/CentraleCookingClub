@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.centralecookingclub.R
@@ -29,7 +30,7 @@ class ShoppingListItemAdapter(private val shoppingList: List<ShoppingListItem>, 
 
     inner class ShoppingListItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener{
         val checkBoxView: CheckBox = itemView.findViewById(R.id.boughtCheckBox)
-        val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
+        val deleteButton: ImageButton = itemView.findViewById(R.id.deleteButton)
         val textView: TextView = itemView.findViewById(R.id.shoppingListItemName)
 
         init {
