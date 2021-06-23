@@ -6,30 +6,37 @@
     xmlns:card_view="http://schemas.android.com/tools">
 
     <androidx.cardview.widget.CardView
-        android:layout_marginTop="15dp"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_gravity="center"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="8dp"
+        app:cardBackgroundColor="#FD97BA"
         app:cardCornerRadius="5dp"
+        app:cardElevation="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        card_view:cardCornerRadius="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp">
+        card_view:cardCornerRadius="20dp">
 
         <TextView
             android:id="@+id/ingredientName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp" />
+            android:layout_marginStart="8dp"
+            android:fontFamily="casual"
+            android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/quantityIngredient"
+            android:layout_width="37dp"
+            android:layout_height="match_parent"
             android:layout_gravity="end"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent" />
+            android:fontFamily="casual"
+            android:textColor="@color/white" />
 
     </androidx.cardview.widget.CardView>
 

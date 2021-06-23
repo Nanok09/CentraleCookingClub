@@ -18,6 +18,7 @@
         app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:cardElevation="16dp"
         card_view:cardCornerRadius="20dp">
 
         <TextView

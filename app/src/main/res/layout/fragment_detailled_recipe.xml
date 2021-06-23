@@ -11,44 +11,49 @@
         android:id="@+id/titleDetailledRecipe"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:fontFamily="casual"
         android:gravity="center"
+        android:textColor="#FD97BA"
+        android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:scaleType="fitXY"
         android:id="@+id/imageDetailledRecipe"
         android:layout_width="match_parent"
         android:layout_height="150dp"
+        android:scaleType="fitXY"
         app:layout_constraintTop_toBottomOf="@+id/titleDetailledRecipe" />
 
     <ImageView
-        android:src="@drawable/ic_baseline_group_24"
         android:id="@+id/ic_nb_personnes_detailled_recipe"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:src="@drawable/ic_baseline_group_24"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
         app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
-        android:src="@drawable/ic_baseline_remove_24"
         android:id="@+id/ic_minus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_remove_24"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="25dp"/>
+        app:layout_constraintStart_toEndOf="@+id/ic_nb_personnes_detailled_recipe" />
 
     <TextView
         android:id="@+id/nbPersonneOfRecipe"
         android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:layout_marginStart="5dp"
         android:fontFamily="casual"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
-        app:layout_constraintStart_toEndOf="@id/ic_minus" />
+        app:layout_constraintEnd_toStartOf="@+id/ic_plus"
+        app:layout_constraintStart_toEndOf="@+id/ic_minus" />
     <ImageView
         android:src="@drawable/ic_add_24"
         android:id="@+id/ic_plus"
@@ -64,6 +69,17 @@
         android:layout_height="match_parent"
         android:layout_marginTop="230dp"
          />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="110dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="casual"
+        android:text="Favoris"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageDetailledRecipe" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
