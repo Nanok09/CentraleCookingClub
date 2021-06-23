@@ -40,21 +40,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    suspend fun getRecipesByName(name:String){
-        try {
-            val recipe = cccRepository.localDataSource.getAllRecipesByName(name)
-            withContext(Main)
-            {
-                recettes.value =recipe
-                Log.d("CCC", recettes.value!![0].name)
-            }
-        } catch (e: Exception){
-            Log.d("CCC",e.toString())
-        }
-    }
-
-
-
     suspend fun setAutocompleteTextView(acResearch: AutoCompleteTextView){
         try {
             val recipeNames = cccRepository.localDataSource.getAllRecipeNames()
@@ -77,7 +62,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             var recipe = cccRepository.localDataSource.getAllRecipesByName(name)
             val isChecked = swFaved.isChecked
             withContext(Main)
-            {   if (isChecked == true) recipe = cccRepository.localDataSource.researchInFavorites(name)
+            {   if (isChecked) recipe = cccRepository.localDataSource.researchInFavorites(name)
                 recettes.value = recipe
             }
         } catch (e: Exception){
