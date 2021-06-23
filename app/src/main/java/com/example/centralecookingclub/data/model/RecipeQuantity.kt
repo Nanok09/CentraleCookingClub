@@ -7,5 +7,5 @@ data class RecipeQuantity(
     val idIngredient: Int,
     val idRecipe: Int,
     val unit: String,
-    var quantity: Int
+    var quantity: Float
 )

@@ -184,7 +184,7 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                 fragmentScope.launch {
                     var addImgBitmap = (addImg.drawable as BitmapDrawable).bitmap
                     val recipeId = galleryViewModel.getLastId()+1
-                    val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4)
+                    val recipe = Recipe(recipeId, recipeName.text.toString(),20, addImgBitmap, 4, "Matyas")
                     val recipeSteps = mutableListOf<Step>()
                     _editRecipeList.forEachIndexed{
                             index,element ->val view = recyclerView.layoutManager?.findViewByPosition(index)
