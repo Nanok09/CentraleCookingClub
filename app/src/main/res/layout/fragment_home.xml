@@ -24,6 +24,7 @@
         android:layout_marginEnd="8dp"
         android:fontFamily="casual"
         android:hint="@string/research"
+        android:singleLine="true"
         app:layout_constraintEnd_toStartOf="@+id/btnResearch"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
