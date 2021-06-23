@@ -19,6 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:fontFamily="casual"
         android:id="@+id/shoppingListItemName"
         android:layout_width="0dp"
         android:layout_height="50dp"

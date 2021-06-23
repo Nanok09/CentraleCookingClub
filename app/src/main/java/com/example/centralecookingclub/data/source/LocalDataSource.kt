@@ -8,11 +8,9 @@ import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.room.Query
 import androidx.room.Room
-import com.example.centralecookingclub.data.model.Ingredient
-import com.example.centralecookingclub.data.model.Recipe
-import com.example.centralecookingclub.data.model.RecipeQuantity
-import com.example.centralecookingclub.data.model.Step
+import com.example.centralecookingclub.data.model.*
 import com.example.centralecookingclub.data.source.database.CCCDatabase
 import kotlin.coroutines.coroutineContext
 
@@ -28,6 +26,7 @@ class LocalDataSource (
     private val stepDao = roomDatabase.stepDao()
     private val recipeDao = roomDatabase.recipeDao()
     private val recipeQuantityDao = roomDatabase.recipeQuantityDao()
+    private val shoppingListItemDao = roomDatabase.shoppingListItemDao()
 
     //////////////////////////////////////////
     // OPERATIONS GENERALES SUR LA DATABASE //
@@ -45,8 +44,10 @@ class LocalDataSource (
 
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
+    suspend fun getAllRecipesByName(name : String) = recipeDao.getAllRecipesByName(name)
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
-    suspend fun addRecipe(reciepe: Recipe) = recipeDao.addRecipe(reciepe)
+    suspend fun addRecipe(recipe: Recipe) = recipeDao.addRecipe(recipe)
+    suspend fun searchRecipe(name : String) = recipeDao.searchRecipe(name)
 
     suspend fun getAllIngredients() = ingredientDao.getAllIngredients()
     suspend fun getIngredient(id: Int) = ingredientDao.getIngredient(id)
@@ -56,6 +57,16 @@ class LocalDataSource (
         return recipeDao.getLastId()
     }
 
+    suspend fun getAllShoppingListItems() = shoppingListItemDao.getAllShoppingListItems()
+    suspend fun addShoppingListItem(shoppingListItem: ShoppingListItem) = shoppingListItemDao
+        .addShoppingListItem(shoppingListItem)
+    suspend fun deleteShoppingListItem(shoppingListItem: ShoppingListItem) = shoppingListItemDao
+        .deleteShoppingListItem(shoppingListItem)
+    suspend fun getLastIdItem(): Int {
+        var id = shoppingListItemDao.getLastIdItem()
+        if (id == null) return 0
+        else return id
+    }
     //////////////////////////////////////
     // Récupération de données précises //
     //////////////////////////////////////
@@ -88,5 +99,20 @@ class LocalDataSource (
         return newListQuantities
     }
 
+    suspend fun getAllRecipeNames(): Array<String> {
+        val listOfRecipes = getAllRecipes()
+        return Array(listOfRecipes.size) { i -> listOfRecipes[i].name }
+    }
 
+    suspend fun changeFaved(recipe: Recipe){
+        val idRecipe = recipe.id
+        val faved = recipe.faved
+        recipeDao.changeFaved(idRecipe, if (faved == 0) 1 else 0)
+    }
+
+    suspend fun changeBought(shoppingListItem: ShoppingListItem){
+        val idItem = shoppingListItem.idItem
+        val bought = shoppingListItem.bought
+        shoppingListItemDao.changeBought(idItem, if (bought == 0) 1 else 0)
+    }
 }

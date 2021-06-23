@@ -12,16 +12,19 @@
         android:layout_height="200dp"
         android:layout_gravity="center"
         app:cardCornerRadius="4dp"
+        card_view:cardElevation="15dp"
+        app:cardUseCompatPadding="true"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:cardBackgroundColor="@color/purple_200">
+        app:cardBackgroundColor="#fec5d9">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/titreItem"
             android:layout_width="match_parent"
             android:layout_height="45dp"
@@ -31,6 +34,7 @@
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/time"
             android:layout_width="45dp"
             android:layout_height="45dp"
@@ -39,6 +43,7 @@
             app:layout_constraintStart_toEndOf="@id/ic_time" />
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/nombrePersonnes"
             android:layout_width="45dp"
             android:layout_height="45dp"

@@ -18,9 +18,12 @@
         app:layout_constraintHorizontal_bias="0.144"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        card_view:cardCornerRadius="20dp">
+        card_view:cardCornerRadius="20dp"
+        card_view:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/stepTV"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
@@ -30,6 +33,7 @@
             android:layout_marginLeft="4dp"/>
 
         <TextView
+            android:fontFamily="casual"
             android:id="@+id/descriptionStep"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
