@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:cardBackgroundColor="#fec5d9">
+        app:cardBackgroundColor=" 	#DB7093">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

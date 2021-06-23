@@ -38,6 +38,7 @@ class AddIngAdapter( _listAddIng : List<Ingredient>) : RecyclerView.Adapter<Recy
     inner class AddIngViewHolder constructor(addIng : View): RecyclerView.ViewHolder(addIng){
         private val titletextView : TextView = addIng.findViewById(R.id.titleAddIng)
         private val quantityEditText : EditText = addIng.findViewById(R.id.quantityAddIng)
+        private val unitTextView : TextView = addIng.findViewById(R.id.addIngUnit)
         lateinit var myCustomEditTextListener : MyCustomEditTextListener
 
         init {
@@ -46,6 +47,7 @@ class AddIngAdapter( _listAddIng : List<Ingredient>) : RecyclerView.Adapter<Recy
         }
         fun bind(addIng: Ingredient,position: Int){
             titletextView.text = addIng.name
+            unitTextView.text=addIng.unit
             myCustomEditTextListener.updatePosition(bindingAdapterPosition)
             quantityEditText.setText(arrQuantity[position].toString())
         }

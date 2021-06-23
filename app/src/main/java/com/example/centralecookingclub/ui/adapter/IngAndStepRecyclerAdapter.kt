@@ -56,6 +56,7 @@ class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep 
     inner class IngredientViewHolder constructor(ingredient : View): RecyclerView.ViewHolder(ingredient){
         private val nameTextView : TextView = ingredient.findViewById(R.id.ingredientName)
         private val quantityTextView : TextView = ingredient.findViewById(R.id.quantityIngredient)
+        private val unitTextView : TextView = ingredient.findViewById(R.id.unitIngredient)
 
         fun bind(ingredient: Ingredient){
             quantity.forEach {
@@ -73,6 +74,7 @@ class IngAndStepRecyclerAdapter(val actionListener: ActionListener, _ingAndStep 
                 }
             }
             nameTextView.text = ingredient.name
+            unitTextView.text=ingredient.unit
         }
     }
     inner class StepViewHolder constructor(step : View): RecyclerView.ViewHolder(step){

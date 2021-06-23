@@ -30,12 +30,12 @@ class DatabaseCreator(application: Application, context: Context) {
         //Ajoute des ingrédients définis à la database
         suspend fun initializeIngredients() {
             //CREPES
-            val egg = Ingredient(1, "egg")
-            val milk = Ingredient(2, "milk")
-            val flour = Ingredient(3, "flour")
-            val salt = Ingredient(4, "salt")
-            val sugar = Ingredient(5, "sugar")
-            val butter = Ingredient(6, "butter")
+            val egg = Ingredient(1, "egg", "unit")
+            val milk = Ingredient(2, "milk", "L")
+            val flour = Ingredient(3, "flour", "g")
+            val salt = Ingredient(4, "salt", "pincée")
+            val sugar = Ingredient(5, "sugar", "g")
+            val butter = Ingredient(6, "butter", "g")
             cccRepository.localDataSource.addIngredient(egg)
             cccRepository.localDataSource.addIngredient(milk)
             cccRepository.localDataSource.addIngredient(flour)
@@ -44,16 +44,16 @@ class DatabaseCreator(application: Application, context: Context) {
             cccRepository.localDataSource.addIngredient(butter)
 
             //Autre
-            val tomatoes = Ingredient(7, "tomatoes")
+            val tomatoes = Ingredient(7, "tomatoes", "g")
             cccRepository.localDataSource.addIngredient(tomatoes)
 
             //PATES CARBO
-            val dicedbacon = Ingredient(8, "diced bacon")
-            val parmesan = Ingredient(9, "parmesan")
-            val pepper = Ingredient(10, "pepper")
-            val spaghetti = Ingredient(11, "spaghetti")
-            val eggyolks = Ingredient(12, "egg yolks")
-            val cream = Ingredient(13, "cream")
+            val dicedbacon = Ingredient(8, "diced bacon", "g")
+            val parmesan = Ingredient(9, "parmesan", "g")
+            val pepper = Ingredient(10, "pepper", "g")
+            val spaghetti = Ingredient(11, "spaghetti", "g")
+            val eggyolks = Ingredient(12, "egg yolks", "unit")
+            val cream = Ingredient(13, "cream", "g")
 
             cccRepository.localDataSource.addIngredient(dicedbacon)
             cccRepository.localDataSource.addIngredient(parmesan)

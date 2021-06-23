@@ -24,8 +24,7 @@
         android:layout_marginStart="75dp"
         app:layout_constraintTop_toTopOf="parent" />
     <ImageView
-
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         app:layout_constraintStart_toStartOf="parent"
         android:src="@drawable/no_image"
         android:scaleType="fitXY"
@@ -96,6 +95,24 @@
         android:layout_height="45dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnaddIng"/>
+    <TextView
+        android:fontFamily="casual"
+        android:id="@+id/timeTV"
+        android:layout_width="150dp"
+        android:layout_height="45dp"
+        android:gravity="center"
+        android:text="Temps"
+        app:layout_constraintStart_toEndOf="@+id/imageofRecipe"
+        app:layout_constraintTop_toBottomOf="@id/nbPeopleTV" />
+
+    <EditText
+        android:fontFamily="casual"
+        android:inputType="number"
+        android:id="@+id/EDTime"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/EDnbPeople"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/editRecipeRecyclerView"
@@ -107,7 +124,7 @@
         android:layout_marginBottom="45dp"/>
 
     <Button
-        android:backgroundTint="#fec5d9"
+        android:backgroundTint=" 	#DB7093"
         android:fontFamily="casual"
         android:id="@+id/btnValidateRecipe"
         android:layout_width="wrap_content"
