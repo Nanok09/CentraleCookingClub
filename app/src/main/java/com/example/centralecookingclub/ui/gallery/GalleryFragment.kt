@@ -203,7 +203,17 @@ class GalleryFragment : Fragment(), EditRecipeRecyclerAdapter.ActionListener, Vi
                 fragmentScope.launch {
                     val addImgBitmap = (addImg?.drawable as BitmapDrawable).bitmap
                     val recipeId = galleryViewModel.getLastId()+1
-                    val recipe = Recipe(recipeId, recipeName.text.toString(),recipeTime.text.toString().toInt(), addImgBitmap, recipenbpeople.text.toString().toInt(), "Matyas")
+                    var time = 0
+                    var nbPeope = 0
+                    if(recipenbpeople.text.toString()!="")
+                    {
+                        nbPeope=recipenbpeople.text.toString().toInt()
+                    }
+                    if(recipeTime.text.toString()!="")
+                    {
+                        time=recipeTime.text.toString().toInt()
+                    }
+                    val recipe = Recipe(recipeId, recipeName.text.toString(),time, addImgBitmap,nbPeope,"Matyas")
                     val recipeSteps = mutableListOf<Step>()
                     val recipeQuantities = mutableListOf<RecipeQuantity>()
                         Log.d("EDPMR", editRecipeAdapter.editRecipeList.size.toString())
