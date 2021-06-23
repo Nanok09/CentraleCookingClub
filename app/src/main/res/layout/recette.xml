@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:card_view="http://schemas.android.com/tools">
+    xmlns:card_view="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="210dp"
         android:layout_gravity="center"
-        app:cardCornerRadius="4dp"
-        card_view:cardElevation="15dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        app:cardBackgroundColor=" 	#DB7093">
+        app:cardBackgroundColor=" 	#DB7093"
+        app:cardCornerRadius="4dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toTopOf="parent"
+        card_view:cardElevation="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,44 +24,49 @@
 
             <TextView
                 android:id="@+id/titreItem"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                android:textColor="@color/ic_launcher_background"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/cardViewImage"
+                app:layout_constraintEnd_toStartOf="@+id/ic_favori"
+                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:fontFamily="casual"
                 android:gravity="center"
-                app:layout_constraintBottom_toTopOf="@+id/cardViewImage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintStart_toEndOf="@id/ic_time"
+                app:layout_constraintTop_toTopOf="@+id/ic_time" />
 
-        <TextView
-            android:fontFamily="casual"
-            android:id="@+id/time"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="@+id/ic_time"
-            app:layout_constraintStart_toEndOf="@id/ic_time" />
-
-        <TextView
-            android:fontFamily="casual"
-            android:id="@+id/nombrePersonnes"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="@+id/ic_nb_personnes"
-            app:layout_constraintStart_toEndOf="@id/ic_nb_personnes" />
+            <TextView
+                android:id="@+id/nombrePersonnes"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:fontFamily="casual"
+                android:gravity="center"
+                app:layout_constraintStart_toEndOf="@id/ic_nb_personnes"
+                app:layout_constraintTop_toTopOf="@+id/ic_nb_personnes" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardViewImage"
                 android:layout_width="280dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:layout_marginTop="35dp"
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="8dp"
                 app:cardUseCompatPadding="true"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                card_view:cardElevation="5dp"
-                android:layout_marginTop="35dp">
+                card_view:cardElevation="5dp">
 
                 <ImageView
                     android:id="@+id/imageRecipe"
@@ -75,31 +79,30 @@
             </androidx.cardview.widget.CardView>
 
 
-        <ImageView
-            android:layout_marginTop="20dp"
-            android:id="@+id/ic_time"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_time_24"
-            app:layout_constraintTop_toTopOf="@+id/cardViewImage"
-            app:layout_constraintStart_toEndOf="@id/cardViewImage"/>
+            <ImageView
+                android:id="@+id/ic_time"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/ic_time_24"
+                app:layout_constraintStart_toEndOf="@id/cardViewImage"
+                app:layout_constraintTop_toTopOf="@+id/cardViewImage" />
 
-        <ImageView
-            android:layout_marginTop="15dp"
-            android:id="@+id/ic_nb_personnes"
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:src="@drawable/ic_baseline_group_24"
-            app:layout_constraintTop_toBottomOf="@id/ic_time"
-            app:layout_constraintStart_toEndOf="@id/cardViewImage" />
+            <ImageView
+                android:id="@+id/ic_nb_personnes"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="15dp"
+                android:src="@drawable/ic_baseline_group_24"
+                app:layout_constraintStart_toEndOf="@id/cardViewImage"
+                app:layout_constraintTop_toBottomOf="@id/ic_time" />
 
             <CheckBox
-                android:clickable="false"
-                android:layout_marginEnd="10dp"
                 android:id="@+id/ic_favori"
                 style="?android:attr/starStyle"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
+                android:clickable="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
