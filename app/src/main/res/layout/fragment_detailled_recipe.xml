@@ -51,14 +51,15 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
         app:layout_constraintStart_toStartOf="parent" />
+
     <ImageView
-        android:src="@drawable/ic_baseline_remove_24"
         android:id="@+id/ic_minus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_remove_24"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="40dp"/>
+
+        app:layout_constraintStart_toEndOf="@+id/ic_nb_personnes_detailled_recipe" />
 
 
     <TextView
@@ -69,14 +70,15 @@
         android:fontFamily="casual"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
         app:layout_constraintStart_toEndOf="@id/ic_minus" />
+
     <ImageView
-        android:src="@drawable/ic_add_24"
         android:id="@+id/ic_plus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_24"
         app:layout_constraintBottom_toTopOf="@id/ingAndStepRecyclerView"
-        app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginStart="85dp"/>
+
+        app:layout_constraintStart_toEndOf="@+id/nbPersonneOfRecipe" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingAndStepRecyclerView"
