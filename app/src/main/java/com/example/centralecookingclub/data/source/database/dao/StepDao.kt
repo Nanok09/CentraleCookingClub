@@ -12,14 +12,9 @@ interface  StepDao {
     @Query("SELECT * FROM STEP_TABLE")
     suspend fun getAllSteps(): MutableList<Step>
 
-    @Query("SELECT * FROM STEP_TABLE WHERE idRecipe = :idRecipe")
-    suspend fun getAllSteps(idRecipe: Int): MutableList<Step>
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addStep(step: Step)
 
     @Query("SELECT * FROM STEP_TABLE WHERE idRecipe = :idRecipe")
     suspend fun getStepsFromRecipe(idRecipe: Int): MutableList<Step>
-
-
 }
