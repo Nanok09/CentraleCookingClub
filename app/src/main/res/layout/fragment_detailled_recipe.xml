@@ -65,5 +65,17 @@
         android:layout_marginTop="230dp"
          />
 
+    <CheckBox
+        android:id="@+id/favoriteCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="casual"
+        android:text="Favoris"
+        android:textSize="17sp"
+        style="?android:attr/starStyle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageDetailledRecipe" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
