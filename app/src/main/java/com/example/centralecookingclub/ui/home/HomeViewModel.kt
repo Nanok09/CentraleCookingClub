@@ -59,16 +59,13 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             val recipeNames = cccRepository.localDataSource.getAllRecipeNames()
             withContext(Main)
             {
-               /* val COUNTRIES = arrayOf(
-                    "Belgium", "France", "Italy", "Germany", "Spain"
-                )
 
                 val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
-                    Activity(),
-                    R.layout.simple_dropdown_item_1line, COUNTRIES
+                    getApplication(),
+                    R.layout.simple_dropdown_item_1line, recipeNames
                 )
                 Log.d("CCC","COUCOU Léo")
-                acResearch.setAdapter(adapter)*/
+                acResearch.setAdapter(adapter)
             }
         } catch (e: Exception){
             Log.d("CCC",e.toString())

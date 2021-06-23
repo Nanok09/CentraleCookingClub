@@ -1,5 +1,6 @@
 package com.example.centralecookingclub.ui.home
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
