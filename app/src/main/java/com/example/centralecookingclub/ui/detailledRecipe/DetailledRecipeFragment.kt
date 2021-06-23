@@ -155,7 +155,6 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
                 fragmentScope.launch {
                     val recipe = detailledRecipeViewModel.recipe.value!!
                     detailledRecipeViewModel.changeFaved(recipe)
-                    Log.i("Test", recipe.toString())
                 }
             }
         }

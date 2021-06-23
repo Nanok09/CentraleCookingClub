@@ -65,6 +65,5 @@ class DetailledRecipeViewModel(application: Application) : AndroidViewModel(appl
     suspend fun changeFaved(recipe: Recipe) {
         cccRepository.localDataSource.changeFaved(recipe)
         recipe.faved = 1-recipe.faved
-        Log.i("Test", recipe.faved.toString())
     }
 }
