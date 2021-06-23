@@ -15,6 +15,9 @@ interface RecipeDao {
 
     @Query("SELECT * FROM RECIPE_TABLE WHERE name LIKE '%' || :name || '%' ")
     suspend fun getAllRecipesByName(name : String ): MutableList<Recipe>
+    
+    @Query("SELECT * FROM RECIPE_TABLE WHERE faved==1 AND name LIKE '%' || :name || '%' ")
+    suspend fun researchInFavorites(name : String): MutableList<Recipe>
 
     @Query("SELECT * FROM RECIPE_TABLE WHERE id=:id")
     suspend fun getRecipe(id: Int): Recipe

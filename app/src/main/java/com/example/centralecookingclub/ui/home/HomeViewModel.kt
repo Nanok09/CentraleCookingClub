@@ -6,6 +6,7 @@ import android.app.Application
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
+import android.widget.Switch
 import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
@@ -65,6 +66,19 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     R.layout.simple_dropdown_item_1line, recipeNames
                 )
                 acResearch.setAdapter(adapter)
+            }
+        } catch (e: Exception){
+            Log.d("CCC",e.toString())
+        }
+    }
+
+    suspend fun research(name: String, swFaved: Switch) {
+        try {
+            var recipe = cccRepository.localDataSource.getAllRecipesByName(name)
+            val isChecked = swFaved.isChecked
+            withContext(Main)
+            {   if (isChecked == true) recipe = cccRepository.localDataSource.researchInFavorites(name)
+                recettes.value = recipe
             }
         } catch (e: Exception){
             Log.d("CCC",e.toString())
