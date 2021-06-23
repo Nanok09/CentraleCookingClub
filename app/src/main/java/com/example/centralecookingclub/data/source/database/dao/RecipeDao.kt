@@ -13,7 +13,7 @@ interface RecipeDao {
     @Query("SELECT * FROM RECIPE_TABLE")
     suspend fun getAllRecipes(): MutableList<Recipe>
 
-    @Query("SELECT * FROM RECIPE_TABLE WHERE name=:name")
+    @Query("SELECT * FROM RECIPE_TABLE WHERE name LIKE '%' || :name || '%' ")
     suspend fun getAllRecipesByName(name : String ): MutableList<Recipe>
 
     @Query("SELECT * FROM RECIPE_TABLE WHERE id=:id")
@@ -21,9 +21,6 @@ interface RecipeDao {
 
     @Query("UPDATE RECIPE_TABLE SET faved = :value WHERE id=:idRecipe")
     suspend fun changeFaved(idRecipe: Int, value: Int)
-
-    @Query("SELECT * FROM RECIPE_TABLE WHERE name LIKE '%'+:name+'%' ")
-    suspend fun searchRecipe(name:String): Recipe
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addRecipe(recipe: Recipe)
