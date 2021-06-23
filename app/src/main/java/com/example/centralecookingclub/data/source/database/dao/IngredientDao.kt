@@ -16,7 +16,9 @@ interface IngredientDao {
     suspend fun getIngredient(id: Int): Ingredient
 
     @Query(
-        "SELECT INGREDIENT_TABLE.id, INGREDIENT_TABLE.name FROM INGREDIENT_TABLE INNER JOIN RECIPE_QUANTITY_TABLE ON INGREDIENT_TABLE.id = RECIPE_QUANTITY_TABLE.idIngredient WHERE RECIPE_QUANTITY_TABLE.idRecipe = :idRecipe"
+        "SELECT INGREDIENT_TABLE.id, INGREDIENT_TABLE.name, INGREDIENT_TABLE.unit FROM " +
+                "INGREDIENT_TABLE INNER JOIN " +
+                "RECIPE_QUANTITY_TABLE ON INGREDIENT_TABLE.id = RECIPE_QUANTITY_TABLE.idIngredient WHERE RECIPE_QUANTITY_TABLE.idRecipe = :idRecipe"
     )
     suspend fun getIngredientsFromRecipe(idRecipe: Int): MutableList<Ingredient>
 

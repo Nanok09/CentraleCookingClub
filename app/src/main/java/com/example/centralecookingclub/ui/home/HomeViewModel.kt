@@ -64,7 +64,6 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
                     getApplication(),
                     R.layout.simple_dropdown_item_1line, recipeNames
                 )
-                Log.d("CCC","COUCOU Léo")
                 acResearch.setAdapter(adapter)
             }
         } catch (e: Exception){
