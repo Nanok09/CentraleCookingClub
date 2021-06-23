@@ -1,7 +1,11 @@
 package com.example.centralecookingclub.ui.home
 
+import android.R
+import android.app.Activity
 import android.app.Application
 import android.util.Log
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.lifecycle.*
 import com.example.centralecookingclub.data.CCCRepository
 import com.example.centralecookingclub.data.model.Ingredient
@@ -29,6 +33,39 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
             {
                 recettes.value =recipe
                 Log.d("CCC", recettes.value!![0].name)
+            }
+        } catch (e: Exception){
+            Log.d("CCC",e.toString())
+        }
+    }
+
+    suspend fun getRecipesByName(name:String){
+        try {
+            val recipe = cccRepository.localDataSource.getAllRecipesByName(name)
+            withContext(Main)
+            {
+                recettes.value =recipe
+                Log.d("CCC", recettes.value!![0].name)
+            }
+        } catch (e: Exception){
+            Log.d("CCC",e.toString())
+        }
+    }
+
+
+
+    suspend fun setAutocompleteTextView(acResearch: AutoCompleteTextView){
+        try {
+            val recipeNames = cccRepository.localDataSource.getAllRecipeNames()
+            withContext(Main)
+            {
+
+                val adapter: ArrayAdapter<String> = ArrayAdapter<String>(
+                    getApplication(),
+                    R.layout.simple_dropdown_item_1line, recipeNames
+                )
+                Log.d("CCC","COUCOU Léo")
+                acResearch.setAdapter(adapter)
             }
         } catch (e: Exception){
             Log.d("CCC",e.toString())

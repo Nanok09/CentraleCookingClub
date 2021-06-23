@@ -1,5 +1,6 @@
 package com.example.centralecookingclub.ui.home
 
+import android.app.Activity
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -7,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
+import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -22,13 +25,16 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
+
+class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClickListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
     lateinit var recettesAdapter : ItemRecyclerAdapter
     lateinit var recyclerView : RecyclerView
     lateinit var _recettes : MutableList<Recipe>
+    lateinit var acResearch : AutoCompleteTextView
+    lateinit var btnResearch : Button
 
 
     // This property is only valid between onCreateView and
@@ -68,13 +74,16 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
 
             recettesAdapter.notifyDataSetChanged()})
 
-
-
         Log.i("EDPMR", "HomeFragmentGetrecipes")
+
+        acResearch = _binding!!.acResearch
+        btnResearch = binding!!.btnResearch
+        btnResearch.setOnClickListener(this)
+
         fragmentScope.launch {
             homeViewModel.getRecipes()
+            homeViewModel.setAutocompleteTextView(acResearch)
         }
-
     }
 
     override fun onDestroyView() {
@@ -86,5 +95,18 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener {
         val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment(_recettes[position].id)
         //Log.d("CCC",_recettes[position].id.toString())
         findNavController().navigate(action)
+    }
+
+    override fun onClick(v: View) {
+
+        val fragmentScope = CoroutineScope(Dispatchers.IO)
+        when(v.id){
+            R.id.btnResearch -> {
+                fragmentScope.launch {
+                    val recipeNameReasearched = acResearch.text.toString()
+                    homeViewModel.getRecipesByName(recipeNameReasearched)
+                }
+            }
+        }
     }
 }
