@@ -48,7 +48,7 @@ class ItemRecyclerAdapter(val actionListener: ActionListener, _recettes : List<R
             }
         }
         fun bind(recette: Recipe){
-            titletextView.text = recette.name
+            titletextView.text = recette.name+" by "+recette.authorRecipe
             timeTextView.text = recette.time.toString()
             nbPersonnesTextView.text=recette.numberOfPeople.toString()
             recipeImg.setImageBitmap(recette.recipeImage)
