@@ -45,6 +45,7 @@ class LocalDataSource (
 
     suspend fun getAllRecipes() = recipeDao.getAllRecipes()
     suspend fun getAllRecipesByName(name : String) = recipeDao.getAllRecipesByName(name)
+    suspend fun researchInFavorites(name : String) = recipeDao.researchInFavorites(name)
     suspend fun getRecipe(id: Int) = recipeDao.getRecipe(id)
     suspend fun addRecipe(recipe: Recipe) = recipeDao.addRecipe(recipe)
 
