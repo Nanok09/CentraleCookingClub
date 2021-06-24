@@ -1,9 +1,11 @@
 package com.example.centralecookingclub.ui.home
 
 import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -19,13 +21,17 @@ import com.example.centralecookingclub.R
 import com.example.centralecookingclub.data.model.Recipe
 import com.example.centralecookingclub.databinding.FragmentHomeBinding
 import com.example.centralecookingclub.ui.adapter.ItemRecyclerAdapter
+import com.example.centralecookingclub.ui.detailledRecipe.DetailledRecipeFragment
+import com.vikramezhil.droidspeech.DroidSpeech
+import com.vikramezhil.droidspeech.OnDSListener
+import com.vikramezhil.droidspeech.OnDSPermissionsListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
 class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClickListener,
-    CompoundButton.OnCheckedChangeListener{
+    CompoundButton.OnCheckedChangeListener, OnDSListener, OnDSPermissionsListener {
 
     private lateinit var homeViewModel: HomeViewModel
     private var _binding: FragmentHomeBinding? = null
@@ -35,11 +41,20 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
     lateinit var acResearch : AutoCompleteTextView
     lateinit var btnResearch : Button
     lateinit var swFaved : Switch
+    var bool = 0
 
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    var TAG = "TagMainDroidSpeech"
+    private var rechercheDroidSpeech: DroidSpeech? = null
+    var lastTimeWorking: Long = 0
+    var bugTimeCheckHandler: Handler? = null
+    var timeCheckRunnable: Runnable? = null
+    private val TIME_RECHECK_DELAY = 5000
+    private val TIME_OUT_DELAY = 4000
 
 
 
@@ -87,6 +102,34 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
             homeViewModel.getRecipes()
             homeViewModel.setAutocompleteTextView(acResearch)
         }
+
+        ////////////Droid Speech
+        //***Bug detection handlers
+        bugTimeCheckHandler = Handler()
+        timeCheckRunnable = object : Runnable {
+            override fun run() {
+                //Log.i(TAG, "Handler 1 running...");
+                val timeDifference = System.currentTimeMillis() - lastTimeWorking
+                if (timeDifference > TIME_OUT_DELAY) {
+                    //Do action (restartActivity or restartListening)
+                    Log.e(TAG, "Bug Detected ! Restart listener...")
+                    stopSpeech()
+                    startSpeech()
+                }
+                bugTimeCheckHandler!!.postDelayed(this, TIME_RECHECK_DELAY.toLong())
+            }
+        }
+        bugTimeCheckHandler!!.postDelayed(timeCheckRunnable as Runnable, TIME_RECHECK_DELAY.toLong())
+        rechercheDroidSpeech = DroidSpeech(this.activity, activity?.fragmentManager)
+        rechercheDroidSpeech!!.setOnDroidSpeechListener(this)
+        rechercheDroidSpeech!!.setShowRecognitionProgressView(false)
+        rechercheDroidSpeech!!.setOneStepResultVerify(false)
+
+        stopSpeechHomeFragment = view?.findViewById<View>(R.id.fragmentHomeStopButton) as Button
+        //Let's start listening
+        //Initiation de l'écoute
+        startSpeech()
+        //////////////////////////////
     }
 
     override fun onDestroyView() {
@@ -97,6 +140,7 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
     override fun onItemClicked(position: Int) {
         val action = HomeFragmentDirections.actionNavHomeToDetailledRecipeFragment(_recettes[position].id)
         //Log.d("CCC",_recettes[position].id.toString())
+        stopSpeech()
         findNavController().navigate(action)
     }
 
@@ -109,6 +153,10 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
                     val recipeNameReasearched = acResearch.text.toString()
                     homeViewModel.research(recipeNameReasearched, swFaved)
                 }
+            }
+            R.id.fragmentHomeStopButton -> {
+                rechercheDroidSpeech!!.closeDroidSpeechOperations()
+                stopSpeech()
             }
         }
     }
@@ -125,5 +173,95 @@ class HomeFragment : Fragment(), ItemRecyclerAdapter.ActionListener, View.OnClic
             }
         }
 
+    }
+
+    ////////
+
+
+    override fun onDroidSpeechSupportedLanguages(
+        currentSpeechLanguage: String,
+        supportedSpeechLanguages: List<String>
+    ) {
+        Log.i(TAG, "Supported speech languages = $supportedSpeechLanguages")
+        if (supportedSpeechLanguages.contains("fr-FR")) {
+            // Setting the droid speech preferred language as french
+            // Définir la langue préférée du discours de droid speech en français
+            rechercheDroidSpeech!!.setPreferredLanguage("fr-FR")
+        }
+        Log.i(TAG, "Current speech language = $currentSpeechLanguage")
+    }
+
+    override fun onDroidSpeechRmsChanged(rmsChangedValue: Float) {
+
+        // Permet de visualiser des valeurs en nombre à chaque tonalité/ fréquence de la voix détécté
+        Log.i(TAG, "Rms change value = $rmsChangedValue")
+        lastTimeWorking = System.currentTimeMillis()
+    }
+
+    override fun onDroidSpeechLiveResult(liveSpeechResult: String) {
+        // Permet de visualiser le mot détécté prédefinit
+        Log.i(TAG, "Live speech result = $liveSpeechResult")
+        // recherche = liveSpeechResult;
+        // edtRecherche.setText("recherche");
+    }
+
+    @ExperimentalStdlibApi
+    override fun onDroidSpeechFinalResult(finalSpeechResult: String) {
+        if (finalSpeechResult == "Recherche"
+            || finalSpeechResult.lowercase().contains("recherche")
+        ) {
+            btnResearch.performClick()
+            bool = 1
+            acResearch.setText("Recherche en cours")
+        }
+
+        if (finalSpeechResult == "Chercher"
+            || finalSpeechResult.lowercase().contains("chercher")
+        ) {
+            val fragmentScopee = CoroutineScope(Dispatchers.IO)
+            fragmentScopee.launch {
+                homeViewModel.research(acResearch.text.toString(), swFaved)
+            }
+        } else if (bool == 1){
+            acResearch.setText(finalSpeechResult)
+        }
+    }
+
+    override fun onDroidSpeechClosedByUser() {
+        //Permet de fermer Droid Speech
+    }
+
+    override fun onDroidSpeechError(errorMsg: String) {
+        // Speech error
+        //Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+        Log.i(TAG, "Error $errorMsg")
+        stopSpeech()
+    }
+
+    override fun onDroidSpeechAudioPermissionStatus(
+        audioPermissionGiven: Boolean,
+        errorMsgIfAny: String
+    ) {
+        if (audioPermissionGiven) {
+            startSpeech()
+        } else {
+            if (errorMsgIfAny != null) {
+                // Permissions error
+            }
+            stopSpeech()
+        }
+    }
+    private fun startSpeech() {
+        rechercheDroidSpeech!!.startDroidSpeechRecognition()
+
+    }
+
+    private fun stopSpeech() {
+        rechercheDroidSpeech!!.closeDroidSpeechOperations()
+        stopSpeechHomeFragment!!.visibility = View.GONE
+    }
+
+    companion object {
+        var stopSpeechHomeFragment: Button? = null
     }
 }

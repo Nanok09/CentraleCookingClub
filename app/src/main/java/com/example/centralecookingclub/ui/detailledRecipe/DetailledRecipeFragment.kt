@@ -24,6 +24,7 @@ import com.example.centralecookingclub.data.model.*
 import com.example.centralecookingclub.databinding.FragmentDetailledRecipeBinding
 import com.example.centralecookingclub.ui.adapter.EditRecipeRecyclerAdapter
 import com.example.centralecookingclub.ui.adapter.IngAndStepRecyclerAdapter
+import com.example.centralecookingclub.ui.home.HomeFragment
 import com.vikramezhil.droidspeech.DroidSpeech
 import com.vikramezhil.droidspeech.OnDSListener
 import com.vikramezhil.droidspeech.OnDSPermissionsListener
@@ -146,6 +147,7 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
                 if (timeDifference > TIME_OUT_DELAY) {
                     //Do action (restartActivity or restartListening)
                     Log.e(TAG, "Bug Detected ! Restart listener...")
+                    HomeFragment.stopSpeechHomeFragment!!.performClick()
                     stopSpeech()
 //modif                    MainActivity.stopSpeechMain!!.performClick()
                     startSpeech()
@@ -267,11 +269,13 @@ class DetailledRecipeFragment : Fragment(), IngAndStepRecyclerAdapter.ActionList
     }
 
     private fun startSpeech() {
+        HomeFragment.stopSpeechHomeFragment!!.performClick()
         detailledRecipeDroidSpeech!!.startDroidSpeechRecognition()
         stopSpeechDetailledR!!.visibility = View.INVISIBLE
     }
 
     private fun stopSpeech() {
+        HomeFragment.stopSpeechHomeFragment!!.performClick()
         detailledRecipeDroidSpeech!!.closeDroidSpeechOperations()
         stopSpeechDetailledR!!.visibility = View.GONE
     }
